@@ -38,7 +38,7 @@ namespace ZapAgenda_api_aspnet.controllers
         {
             var empresaModel = empresaDto.ToCreateEmpresaDto();
             await _empresaRepo.CreateAsync(empresaModel);
-            return Ok();
+            return CreatedAtAction(nameof(GetById), new {id = empresaModel.IdEmpresa}, empresaModel);
         }
 
         [HttpDelete("{id}:int")]
