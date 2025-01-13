@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Empresa;
 using ZapAgenda_api_aspnet.Mappers;
-using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 
 namespace ZapAgenda_api_aspnet.controllers
@@ -16,12 +15,42 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var empresa = await _empresaRepo.GetAllAsync();
+            return Ok(empresa);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var empresa = await _empresaRepo.GetByIdAsync(id);
+            if (empresa == null)
+            {
+                return BadRequest();
+            }
+            return Ok(empresa);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateEmpresaDto empresaDto)
+        public async Task<IActionResult> Create([FromBody] CreateEmpresaDto empresaDto)
         {
             var empresaModel = empresaDto.ToCreateEmpresaDto();
             await _empresaRepo.CreateAsync(empresaModel);
             return Ok();
+        }
+
+        [HttpDelete("{id}:int")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var empresa = await _empresaRepo.DeleteAsync(id);
+            if (empresa == null)
+            {
+                return BadRequest();
+            }
+            // todo: Pesquisar os códigos corretos para cada tipo de requisição
+            return StatusCode(204);
         }
     }
 }
