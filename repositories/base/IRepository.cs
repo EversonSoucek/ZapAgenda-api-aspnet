@@ -6,5 +6,6 @@ namespace ZapAgenda_api_aspnet.repositories.generic
         Task<List<T?>> GetAllAsync();
         Task<T> CreateAsync(T entity);
         Task<T?> DeleteAsync (int id);
+        //Não achei uma maneira boa de fazer um Update Generico todas as formas pareciam má pratica ou apenas abstrai sem necessidade criando mais complexidade
     }
 }

@@ -15,5 +15,16 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Telefone = empresaDto.Telefone
             };
         }
+
+        public static Empresa ToUpdateEmpresaDto(this UpdateEmpresaDto empresaDto) {
+            return new Empresa {
+                Cnpj = empresaDto.Cnpj,
+                NomeFantasia = empresaDto.NomeFantasia,
+                RazaoSocial = empresaDto.RazaoSocial,
+                TipoEmpresa = empresaDto.TipoEmpresa,
+                Email = empresaDto.Email,
+                Telefone = empresaDto.Telefone
+            };
+        }
     }
 }

@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
+using ZapAgenda_api_aspnet.Dtos.Empresa;
 using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.generic;
 using ZapAgenda_api_aspnet.repositories.interfaces;
@@ -9,7 +11,25 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
     {
         public EmpresaRepository(CoreDBContext context) : base(context)
         {
+
         }
 
+        public async Task<Empresa?> UpdateAsync(UpdateEmpresaDto empresaDto, int id)
+        {
+            var empresa = await _context.Empresa.FirstOrDefaultAsync(empresa => empresa.IdEmpresa ==id);
+            if(empresa == null) {
+                return null;
+            }
+            // todo: Ver se a melhor prática é jogar isso aqui em um mapper
+                empresa.Cnpj = empresaDto.Cnpj;
+                empresa.NomeFantasia = empresaDto.NomeFantasia;
+                empresa.RazaoSocial = empresaDto.RazaoSocial;
+                empresa.TipoEmpresa = empresaDto.TipoEmpresa;
+                empresa.Email = empresaDto.Email;
+                empresa.Telefone = empresaDto.Telefone;
+
+                await _context.SaveChangesAsync();
+                return empresa;
+        }
     }
 }

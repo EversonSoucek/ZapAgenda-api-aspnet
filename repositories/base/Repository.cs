@@ -5,7 +5,7 @@ namespace ZapAgenda_api_aspnet.repositories.generic
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly CoreDBContext _context;
+        protected internal readonly CoreDBContext _context;
         private readonly DbSet<T> _dbSet;
         public Repository(CoreDBContext context)
         {
@@ -39,6 +39,12 @@ namespace ZapAgenda_api_aspnet.repositories.generic
             _dbSet.Remove(modelo);
             await _context.SaveChangesAsync();
             return modelo;
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
