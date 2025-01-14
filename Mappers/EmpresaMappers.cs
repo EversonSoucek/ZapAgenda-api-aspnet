@@ -12,7 +12,13 @@ namespace ZapAgenda_api_aspnet.Mappers
                 RazaoSocial = empresaDto.RazaoSocial,
                 TipoEmpresa = empresaDto.TipoEmpresa,
                 Email = empresaDto.Email,
-                Telefone = empresaDto.Telefone
+                Telefone = empresaDto.Telefone,
+                Cep = empresaDto.Cep,
+                Logradouro = empresaDto.Logradouro,
+                Numero = empresaDto.Numero,
+                Complemento = empresaDto.Complemento,
+                Sigla = empresaDto.Sigla,
+                MunicipioId = empresaDto.MunicipioId
             };
         }
 
@@ -23,7 +29,11 @@ namespace ZapAgenda_api_aspnet.Mappers
                 RazaoSocial = empresaDto.RazaoSocial,
                 TipoEmpresa = empresaDto.TipoEmpresa,
                 Email = empresaDto.Email,
-                Telefone = empresaDto.Telefone
+                Telefone = empresaDto.Telefone,
+                Cep = empresaDto.Cep,
+                Logradouro = empresaDto.Logradouro,
+                Numero = empresaDto.Numero,
+                Complemento = empresaDto.Complemento,
             };
         }
     }

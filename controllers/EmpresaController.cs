@@ -52,12 +52,5 @@ namespace ZapAgenda_api_aspnet.controllers
             // todo: Pesquisar os códigos corretos para cada tipo de requisição
             return StatusCode(204);
         }
-
-        [HttpPut("{id}:int")]
-        public async Task<IActionResult> Update ([FromRoute] int id, [FromBody] UpdateEmpresaDto empresaDto) {
-            var empresa = await _empresaRepo.UpdateAsync(empresaDto, id);
-            if(empresa == null) {return BadRequest();}
-            return Ok(empresa);
-        }
     }
 }

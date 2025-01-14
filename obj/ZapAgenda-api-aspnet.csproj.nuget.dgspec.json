@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj": {}
+    "C:\\Users\\Everson\\Documents\\DEV\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj": {
+    "C:\\Users\\Everson\\Documents\\DEV\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj",
+        "projectUniqueName": "C:\\Users\\Everson\\Documents\\DEV\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj",
         "projectName": "ZapAgenda-api-aspnet",
-        "projectPath": "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj",
-        "packagesPath": "C:\\Users\\Junior\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\obj\\",
+        "projectPath": "C:\\Users\\Everson\\Documents\\DEV\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj",
+        "packagesPath": "C:\\Users\\Everson\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Everson\\Documents\\DEV\\ZapAgenda-api-aspnet\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Junior\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Everson\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

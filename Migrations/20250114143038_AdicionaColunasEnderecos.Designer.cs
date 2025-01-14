@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZapAgenda_api_aspnet.data;
 
@@ -11,9 +12,11 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    partial class CoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250114143038_AdicionaColunasEnderecos")]
+    partial class AdicionaColunasEnderecos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +60,6 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("MunicipioId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NomeFantasia")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -73,11 +73,6 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Sigla")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("tinyint(1)");
@@ -95,6 +90,68 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.HasKey("IdEmpresa");
 
                     b.ToTable("Empresa");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Estado", b =>
+                {
+                    b.Property<string>("Uf")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("EmpresaIdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Uf");
+
+                    b.HasIndex("EmpresaIdEmpresa");
+
+                    b.ToTable("Estado");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Municipio", b =>
+                {
+                    b.Property<int>("IdMunicipio")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdMunicipio"));
+
+                    b.Property<int?>("EmpresaIdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("IdMunicipio");
+
+                    b.HasIndex("EmpresaIdEmpresa");
+
+                    b.ToTable("Municipio");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Estado", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Empresa", null)
+                        .WithMany("Estado")
+                        .HasForeignKey("EmpresaIdEmpresa");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Municipio", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Empresa", null)
+                        .WithMany("Municipio")
+                        .HasForeignKey("EmpresaIdEmpresa");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Empresa", b =>
+                {
+                    b.Navigation("Estado");
+
+                    b.Navigation("Municipio");
                 });
 #pragma warning restore 612, 618
         }
