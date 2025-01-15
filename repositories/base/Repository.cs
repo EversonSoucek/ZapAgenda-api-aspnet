@@ -25,7 +25,7 @@ namespace ZapAgenda_api_aspnet.repositories.generic
             return entity;
         }
 
-        public async Task<List<T?>> GetAllAsync()
+        public async Task<List<T>?> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
