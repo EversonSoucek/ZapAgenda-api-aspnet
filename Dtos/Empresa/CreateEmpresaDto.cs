@@ -36,6 +36,6 @@ namespace ZapAgenda_api_aspnet.Dtos.Empresa
         [Column(TypeName = "varchar(255)")]
         public string? Complemento { get; set; }
         public string Sigla {get;set;} =  null!;
-        public int MunicipioId {get;set;}
+        public string NomeMunicipio {get;set;} = null!;
     }
 }

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Empresa;
+using ZapAgenda_api_aspnet.Exceptions;
 using ZapAgenda_api_aspnet.Mappers;
 using ZapAgenda_api_aspnet.repositories.interfaces;
+using ZapAgenda_api_aspnet.services;
 
 namespace ZapAgenda_api_aspnet.controllers
 {
@@ -28,7 +30,10 @@ namespace ZapAgenda_api_aspnet.controllers
             var empresa = await _empresaRepo.GetByIdAsync(id);
             if (empresa == null)
             {
-                return BadRequest();
+                throw new CustomBadRequest(
+                    title: "Não existe a empresa",
+                    detail: $"Não existe empresa de código: {id}"
+                );
             }
             return Ok(empresa);
         }
@@ -37,8 +42,9 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Create([FromBody] CreateEmpresaDto empresaDto)
         {
             var empresaModel = empresaDto.ToCreateEmpresaDto();
+            
             await _empresaRepo.CreateAsync(empresaModel);
-            return CreatedAtAction(nameof(GetById), new {id = empresaModel.IdEmpresa}, empresaModel);
+            return CreatedAtAction(nameof(GetById), new { id = empresaModel.IdEmpresa }, empresaModel);
         }
 
         [HttpDelete("{id}:int")]
@@ -47,7 +53,10 @@ namespace ZapAgenda_api_aspnet.controllers
             var empresa = await _empresaRepo.DeleteAsync(id);
             if (empresa == null)
             {
-                return BadRequest();
+                throw new CustomBadRequest(
+                    title: "Não existe a empresa",
+                    detail: $"Não existe empresa de código: {id}"
+                );
             }
             // todo: Pesquisar os códigos corretos para cada tipo de requisição
             return StatusCode(204);

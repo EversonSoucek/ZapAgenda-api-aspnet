@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 namespace ZapAgenda_api_aspnet.models
 {
@@ -12,6 +11,6 @@ namespace ZapAgenda_api_aspnet.models
         [JsonPropertyName("id")]
         public required int IdMunicipio { get; set; }
         [JsonPropertyName("nome")]
-        public required string Nome { get; set; }
+        public required string NomeMunicipio { get; set; }
     }
 }

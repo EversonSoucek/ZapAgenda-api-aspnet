@@ -14,38 +14,39 @@ namespace ZapAgenda_api_aspnet.services
         }
         public async Task<List<Estado>?> GetAllEstados()
         {
-            try
+            var resposta = await _httpClient.GetAsync("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
+            if (!resposta.IsSuccessStatusCode)
             {
-                var resposta = await _httpClient.GetAsync("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
-                if(!resposta.IsSuccessStatusCode) {
-                    throw new Exception($"Erro ao chamar api:{resposta.StatusCode}");
-                }
-                var estados = await resposta.Content.ReadAsStringAsync();
-                if (string.IsNullOrEmpty(estados)) { return null; }
-                return JsonConvert.DeserializeObject<List<Estado>>(estados);
+                throw new HttpRequestException($"Erro ao chamar api:{resposta.StatusCode}");
             }
-            catch (Exception)
+            var estados = await resposta.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(estados))
             {
-                throw;
+                throw new ArgumentException("Estados estão null ou vazios");
             }
+            return JsonConvert.DeserializeObject<List<Estado>>(estados);
         }
 
         public async Task<List<Municipio>?> GetMunicipiosBySigla(string sigla)
         {
-            try
+            var resposta = await _httpClient.GetAsync($"https://servicodados.ibge.gov.br/api/v1/localidades/estados/{sigla}/municipios");
+            if (!resposta.IsSuccessStatusCode)
             {
-                var resposta = await _httpClient.GetAsync($"https://servicodados.ibge.gov.br/api/v1/localidades/estados/{sigla}/municipios");
-                if(!resposta.IsSuccessStatusCode) {
-                    throw new Exception($"Erro ao chamar api:{resposta.StatusCode}");
-                }
-                var municipios = await resposta.Content.ReadAsStringAsync();;
-                if (string.IsNullOrEmpty(municipios)) { return null; }
-                return JsonConvert.DeserializeObject<List<Municipio>>(municipios);
+                throw new HttpRequestException($"Erro ao chamar api:{resposta.StatusCode}");
             }
-            catch (Exception)
+
+            var municipios = await resposta.Content.ReadAsStringAsync(); ;
+            if (string.IsNullOrEmpty(municipios))
             {
-                throw;
+                throw new ArgumentException("Municipios estão null ou vazios");
             }
+            return JsonConvert.DeserializeObject<List<Municipio>>(municipios);
+        }
+        public async Task<string> GetMunicipioId(string NomeMunicipio, string sigla)
+        {
+            var municipios = await GetMunicipiosBySigla(sigla) ?? throw new NullReferenceException("Sigla Não existe");
+            var municipioCorreto = municipios.FirstOrDefault(cidade => cidade.NomeMunicipio == NomeMunicipio) ?? throw new NullReferenceException("Não existe municipio");
+            return municipioCorreto.NomeMunicipio;
         }
     }
 }

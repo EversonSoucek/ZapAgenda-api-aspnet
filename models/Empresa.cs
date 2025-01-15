@@ -47,7 +47,7 @@ namespace ZapAgenda_api_aspnet.models
         [MaxLength(3, ErrorMessage ="Não pode ser maior que 3")]
         public string Sigla  {get;set;} = null!;
         public Estado Estado {get;set;} = null!;
-        public int MunicipioId {get;set;}
         public Municipio Municipio {get;set;} = null!;
+        public string NomeMunicipio {get;set;} = null!;
     }
 }
