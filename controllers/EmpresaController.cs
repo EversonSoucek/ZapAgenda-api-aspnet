@@ -3,7 +3,6 @@ using ZapAgenda_api_aspnet.Dtos.Empresa;
 using ZapAgenda_api_aspnet.Exceptions;
 using ZapAgenda_api_aspnet.Mappers;
 using ZapAgenda_api_aspnet.repositories.interfaces;
-using ZapAgenda_api_aspnet.services;
 
 namespace ZapAgenda_api_aspnet.controllers
 {

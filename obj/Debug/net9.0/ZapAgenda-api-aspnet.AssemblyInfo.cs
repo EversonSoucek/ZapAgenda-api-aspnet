@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZapAgenda-api-aspnet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb138456b57363df175a67752d7b74ddcb9d2838")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df26f303baa7e856d31d111fa36f4d4fab6ef44b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZapAgenda-api-aspnet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZapAgenda-api-aspnet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

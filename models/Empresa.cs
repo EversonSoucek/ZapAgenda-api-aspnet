@@ -46,8 +46,6 @@ namespace ZapAgenda_api_aspnet.models
         [Column(TypeName = "varchar(3)")]
         [MaxLength(3, ErrorMessage ="Não pode ser maior que 3")]
         public string Sigla  {get;set;} = null!;
-        public Estado Estado {get;set;} = null!;
-        public Municipio Municipio {get;set;} = null!;
         public string NomeMunicipio {get;set;} = null!;
     }
 }

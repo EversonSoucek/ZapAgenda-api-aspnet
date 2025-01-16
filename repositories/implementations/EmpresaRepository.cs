@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.Dtos.Empresa;
-using ZapAgenda_api_aspnet.Exceptions;
 using ZapAgenda_api_aspnet.interfaces;
 using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.generic;
@@ -20,11 +19,8 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         public new async Task<Empresa> CreateAsync(Empresa empresaModel)
         {
             var cidadeExiste = await _ibgeservice.SeMunicipioExiste(empresaModel.NomeMunicipio,empresaModel.Sigla);
-            if (!cidadeExiste) {
-                throw new CustomBadRequest(
-                    title:"Cidade não pertence a esse estado",
-                    detail: $"Não existe cidade: {empresaModel.NomeMunicipio} no estado: {empresaModel.Sigla}"
-                );
+            if (!cidadeExiste.Value) {
+                throw new ArgumentException($"Cidade {empresaModel.NomeMunicipio} de sigla: {empresaModel.Sigla} não existe");
             }
             await _context.Empresa.AddAsync(empresaModel);
             await _context.SaveChangesAsync();
@@ -44,6 +40,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 empresa.TipoEmpresa = empresaDto.TipoEmpresa;
                 empresa.Email = empresaDto.Email;
                 empresa.Telefone = empresaDto.Telefone;
+                empresa.Cep = empresaDto.Cep;
 
 
                 await _context.SaveChangesAsync();
