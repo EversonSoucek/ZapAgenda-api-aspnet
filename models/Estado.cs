@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace ZapAgenda_api_aspnet.models
 {
@@ -8,9 +8,9 @@ namespace ZapAgenda_api_aspnet.models
     public class Estado
     {
         [Key]
-        [JsonPropertyName("sigla")]
+        [JsonProperty("sigla")]
         public required string Sigla { get; set; }
-        [JsonPropertyName("nome")]
+        [JsonProperty("nome")]
         public required string Nome { get; set; }
     }
 }

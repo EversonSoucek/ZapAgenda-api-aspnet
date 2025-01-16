@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ZapAgenda_api_aspnet.models;
 
 namespace ZapAgenda_api_aspnet.interfaces
@@ -9,7 +5,8 @@ namespace ZapAgenda_api_aspnet.interfaces
     public interface IIbgeService
     {
         Task<List<Estado>?> GetAllEstados();
-        Task <List<Municipio>?> GetMunicipiosBySigla(string sigla);
-        Task<string> GetMunicipioId(string NomeMunicipio, string sigla);
+        Task<List<Municipio>?> GetMunicipiosBySigla(string sigla);
+        Task<int> GetMunicipioId(string NomeMunicipio, string sigla);
+        Task<List<Municipio>?> GetMunicipiosByNome(string NomeMunicipio);
     }
 }
