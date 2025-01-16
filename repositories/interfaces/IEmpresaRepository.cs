@@ -7,5 +7,6 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
     public interface IEmpresaRepository : IRepository<Empresa>
     {
         Task<Empresa?> UpdateAsync ( UpdateEmpresaDto empresaDto, int id);
+        new Task<Empresa> CreateAsync (Empresa empresaModel);
     }
 }

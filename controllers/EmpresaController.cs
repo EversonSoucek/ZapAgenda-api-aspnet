@@ -42,7 +42,6 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Create([FromBody] CreateEmpresaDto empresaDto)
         {
             var empresaModel = empresaDto.ToCreateEmpresaDto();
-            
             await _empresaRepo.CreateAsync(empresaModel);
             return CreatedAtAction(nameof(GetById), new { id = empresaModel.IdEmpresa }, empresaModel);
         }

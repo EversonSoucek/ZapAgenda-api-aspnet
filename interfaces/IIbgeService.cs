@@ -6,7 +6,7 @@ namespace ZapAgenda_api_aspnet.interfaces
     {
         Task<List<Estado>?> GetAllEstados();
         Task<List<Municipio>?> GetMunicipiosBySigla(string sigla);
-        Task<int> GetMunicipioId(string NomeMunicipio, string sigla);
+        Task<bool> SeMunicipioExiste(string NomeMunicipio, string sigla);
         Task<List<Municipio>?> GetMunicipiosByNome(string NomeMunicipio);
     }
 }
