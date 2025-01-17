@@ -46,6 +46,8 @@ namespace ZapAgenda_api_aspnet.models
         [Column(TypeName = "varchar(3)")]
         [MaxLength(3, ErrorMessage ="Não pode ser maior que 3")]
         public string Sigla  {get;set;} = null!;
+        [Column(TypeName = "varchar(255)")]
+        [MaxLength(255, ErrorMessage = "Nome do município naõ pode ser maior que 255")]
         public string NomeMunicipio {get;set;} = null!;
     }
 }

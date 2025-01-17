@@ -1,3 +1,4 @@
+using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
 
@@ -14,9 +15,13 @@ namespace ZapAgenda_api_aspnet.repositories.generic
         }
 
 
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<Result<T>> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+             var dado = await _dbSet.FindAsync(id);
+             if(dado == null) {
+                return Result.Fail($"Não existe dado com o id:{id}");
+             }
+             return Result.Ok(dado);
         }
         public async Task<T> CreateAsync(T entity)
         {

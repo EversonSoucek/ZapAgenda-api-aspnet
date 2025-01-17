@@ -34,6 +34,8 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Logradouro = empresaDto.Logradouro,
                 Numero = empresaDto.Numero,
                 Complemento = empresaDto.Complemento,
+                Sigla = empresaDto.Sigla,
+                NomeMunicipio = empresaDto.NomeMunicipio
             };
         }
     }

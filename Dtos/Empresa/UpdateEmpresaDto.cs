@@ -27,18 +27,22 @@ namespace ZapAgenda_api_aspnet.Dtos.Empresa
         public string Email { get; set; } = string.Empty;
         [MaxLength(20, ErrorMessage = "Telefone não pode ser maior que 20 caracteres")]
         [Column(TypeName = "varchar(20)")]
-        public string Telefone {get;set;} = string.Empty;
-         public required string Cep { get; set; }
-        [MaxLength(255,ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]
+        public string Telefone { get; set; } = string.Empty;
+        public required string Cep { get; set; }
+        [MaxLength(255, ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public required string Logradouro { get; set; }
-        [MaxLength(100,ErrorMessage = "Logradouro não pode ter mais que 100 caracteres")]
+        [MaxLength(100, ErrorMessage = "Logradouro não pode ter mais que 100 caracteres")]
         [Column(TypeName = "varchar(100)")]
         public string? Numero { get; set; }
-        [MaxLength(255,ErrorMessage = "complemento não pode ter mais que 255 caracteres")]
+        [MaxLength(255, ErrorMessage = "complemento não pode ter mais que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public string? Complemento { get; set; }
-        public List<Estado> Estado {get;set;} = [];
-        public List<Municipio> Municipio {get;set;}= [];
+        [Column(TypeName = "varchar(3)")]
+        [MaxLength(3, ErrorMessage = "Não pode ser maior que 3")]
+        public string Sigla { get; set; } = null!;
+        [Column(TypeName = "varchar(255)")]
+        [MaxLength(255, ErrorMessage = "Nome do município naõ pode ser maior que 255")]
+        public string NomeMunicipio { get; set; } = null!;
     }
 }

@@ -27,7 +27,7 @@ namespace ZapAgenda_api_aspnet.services
                 return Result.Fail($"estados está vazio ou nulo");
             }
             var estadosDeserializados = JsonConvert.DeserializeObject<List<Estado>>(estados);
-            if (estadosDeserializados.Count == 0)
+            if (estadosDeserializados == null || estadosDeserializados.Count == 0)
             {
                 return Result.Fail($"Array de estados está vazia");
             }
@@ -75,6 +75,21 @@ namespace ZapAgenda_api_aspnet.services
             return JsonConvert.DeserializeObject<List<Municipio>>(municipios);
         }
 
+        public async Task<Result<Municipio>> GetMunicipio(string NomeMunicipio,string sigla) {
+            var municipios = await GetMunicipiosBySigla(sigla);
+            if (municipios.IsFailed)
+            {
+                return Result.Fail(municipios.Errors);
+            }
+            var municipioCorreto = municipios.Value.FirstOrDefault(municipio => municipio.NomeMunicipio == NomeMunicipio);
+            
+            if (municipioCorreto == null)
+            {
+                return Result.Fail($"Não foi encontrado o município {NomeMunicipio} pro estado de sigla: {sigla}");
+            }
+            return Result.Ok(municipioCorreto);
+        }
+
         // todo: melhorar esse função que ela tá estupida, tá pegando todos municipios do estado e filtrando pra ver o certo pelo nome
         // Não consegui achar uma maneira de pegar todos com o mesmo nome e filtrar pela sigla sem ter que criar modelos novos de microregião etc
         public async Task<Result<bool>> SeMunicipioExiste(string NomeMunicipio, string sigla)
@@ -84,12 +99,30 @@ namespace ZapAgenda_api_aspnet.services
             {
                 return Result.Fail(municipios.Errors);
             }
-            var municipioCorreto = municipios.Value.FirstOrDefault(municipio => municipio.NomeMunicipio == NomeMunicipio);
-            if (municipioCorreto == null)
-            {
-                return Result.Fail($"Não foi encontrado o município {NomeMunicipio} pro estado de sigla: {sigla}");
-            }
+            
+            
             return Result.Ok();
         }
+
+        /*public async Task<Result<bool>> SeMunicipioPertenceCep(string NomeMunicipio,string Sigla,string Cep) {
+            
+            var municipio = await GetMunicipio(NomeMunicipio,Sigla);
+            if(municipio.IsFailed) {
+                return Result.Fail(municipio.Errors);
+            }
+            var retornoCep = await _httpClient.GetAsync($"https://viacep.com.br/ws/{Cep}/json/");
+            if(!retornoCep.IsSuccessStatusCode) {
+                return Result.Fail("Não foi possível se comunicar com a api");
+            }
+            var cep = await retornoCep.Content.ReadAsStringAsync();
+            if(string.IsNullOrEmpty(cep)) {
+                return Result.Fail("Cep retornou nulo");
+            }
+            if(cep.Length == 0) {
+                return Result.Fail("Cep retornou vazio");
+            }
+            var cepDeserializado = JsonConvert.DeserializeObject<Municipio>(cep);
+        }*/
+        
     }
 }
