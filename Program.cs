@@ -7,6 +7,9 @@ using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 using ZapAgenda_api_aspnet.repositories.implementations;
 using ZapAgenda_api_aspnet.Middlewares;
+using ZapAgenda_api_aspnet.models;
+using Microsoft.AspNetCore.Identity;
+using ZapAgenda_api_aspnet.extensions;
 
 Env.Load();
 
@@ -20,14 +23,18 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 });
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient<IIbgeService, IbgeService>();
-builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<CoreDBContext>(options =>
 {
     options.UseMySql(Environment.GetEnvironmentVariable("DEFAULT_CONNECTION_STRING"), new MySqlServerVersion(new Version(8, 0, 32)));
 });
+builder.Services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<CoreDBContext>();
+builder.Services.AddHttpClient<IIbgeService, IbgeService>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
+builder.Services.ConfigureIdentityOptions();
+builder.Services.ConfigureAuthOptions(builder.Configuration);
 
 var app = builder.Build();
 
@@ -42,6 +49,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseAuthorization();
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.MapControllers();
 
