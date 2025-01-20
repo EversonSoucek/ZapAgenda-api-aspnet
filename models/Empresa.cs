@@ -31,7 +31,7 @@ namespace ZapAgenda_api_aspnet.models
         [MaxLength(20, ErrorMessage = "Telefone não pode ser maior que 20 caracteres")]
         [Column(TypeName = "varchar(20)")]
         public string Telefone {get;set;} = string.Empty;
-        [MaxLength(8,ErrorMessage = "Cep não pode ter mais que 20 caracteres")]
+        [MaxLength(8,ErrorMessage = "Cep não pode ter mais que 8 caracteres")]
         [Column(TypeName = "varchar(8)")]
         public required string Cep { get; set; }
         [MaxLength(255,ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]

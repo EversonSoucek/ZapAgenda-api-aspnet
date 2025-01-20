@@ -8,7 +8,6 @@ using ZapAgenda_api_aspnet.repositories.interfaces;
 using ZapAgenda_api_aspnet.repositories.implementations;
 using ZapAgenda_api_aspnet.Middlewares;
 
-
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +30,6 @@ builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
 
 var app = builder.Build();
-
 
 app.UseMiddleware<CustomExceptionMiddleware>();
 

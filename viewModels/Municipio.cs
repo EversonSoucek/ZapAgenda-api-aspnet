@@ -11,6 +11,7 @@ namespace ZapAgenda_api_aspnet.models
         [JsonProperty("id")]
         public int IdMunicipio { get; set; }
         [JsonProperty("nome")]
-        public string NomeMunicipio { get; set; }  =  null!;
+        public string NomeMunicipio { get; set; } = null!;
+        public string Sigla { get; set; } = null!;
     }
 }

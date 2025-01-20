@@ -12,8 +12,8 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250117161930_AjustaEmpresa")]
-    partial class AjustaEmpresa
+    [Migration("20250119164910_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
