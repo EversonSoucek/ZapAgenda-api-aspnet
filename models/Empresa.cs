@@ -6,6 +6,7 @@ namespace ZapAgenda_api_aspnet.models
     [Table("Empresa")]
     public class Empresa
     {
+        //todo: fazer o IdEmpresa ser complicado e não só autoincrement
         [Key]
         public int IdEmpresa { get; set; }
         [Required]
@@ -49,5 +50,6 @@ namespace ZapAgenda_api_aspnet.models
         [Column(TypeName = "varchar(255)")]
         [MaxLength(255, ErrorMessage = "Nome do município naõ pode ser maior que 255")]
         public string NomeMunicipio {get;set;} = null!;
+        public List<Usuario> Usuario {get;set;} = [];
     }
 }

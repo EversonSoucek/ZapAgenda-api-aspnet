@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZapAgenda_api_aspnet.data;
 
@@ -11,9 +12,11 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    partial class CoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250122002005_AjustaModeloUsuario")]
+    partial class AjustaModeloUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -270,6 +273,9 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("EmpresaIdEmpresa")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdEmpresa")
                         .HasColumnType("int");
 
@@ -321,7 +327,7 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEmpresa");
+                    b.HasIndex("EmpresaIdEmpresa");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -388,7 +394,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                 {
                     b.HasOne("ZapAgenda_api_aspnet.models.Empresa", "Empresa")
                         .WithMany("Usuario")
-                        .HasForeignKey("IdEmpresa")
+                        .HasForeignKey("EmpresaIdEmpresa")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

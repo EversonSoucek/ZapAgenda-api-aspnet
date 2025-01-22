@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZapAgenda_api_aspnet.models;
 
 
 namespace ZapAgenda_api_aspnet.Dtos.Empresa
@@ -21,6 +20,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Empresa
         public required string TipoEmpresa { get; set; }
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         [MaxLength(20, ErrorMessage = "Telefone não pode ser maior que 20 caracteres")]
         [Column(TypeName = "varchar(20)")]
