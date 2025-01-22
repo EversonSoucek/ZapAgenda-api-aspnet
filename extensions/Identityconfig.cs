@@ -18,5 +18,6 @@ namespace ZapAgenda_api_aspnet.extensions
             });
             return services;
         }
+        
     }
 }

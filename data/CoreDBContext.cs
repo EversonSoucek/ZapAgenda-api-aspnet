@@ -29,11 +29,15 @@ namespace ZapAgenda_api_aspnet.data
                 },
                 new IdentityRole {
                     Id = "5beb1da9-824c-42c9-8cd1-5f7ff2b32913",
-                    Name = "MaxAdmin",
-                    NormalizedName = "MAXADMIN"
+                    Name = "Max",
+                    NormalizedName = "MAX"
                 }
             ];
             builder.Entity<IdentityRole>().HasData(roles);
+
+            builder.Entity<Usuario>(entity => {
+                entity.HasIndex(u => u.UserName).IsUnique(false);
+            });
         }
     }
 }

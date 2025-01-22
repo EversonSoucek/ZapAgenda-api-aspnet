@@ -23,16 +23,23 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Register([FromBody] RegisterUsuarioDto registerUsuarioDto, int IdEmpresa)
         {
             var empresa = await _empresarepo.GetByIdAsync(IdEmpresa);
-            if(empresa.IsFailed) {
+            if (empresa.IsFailed)
+            {
                 return BadRequest($"Não existe empresa de id: {IdEmpresa}");
             }
             var usuario = registerUsuarioDto.ToCreateUsuario(IdEmpresa);
             var result = await _userManager.CreateAsync(usuario, registerUsuarioDto.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return Ok($"Usuário criado com sucesso para a empresa {IdEmpresa}");
+                return StatusCode(500,result.Errors);
             }
-            return BadRequest(result.Errors);
+
+            var roleResult = await _userManager.AddToRoleAsync(usuario, registerUsuarioDto.Cargo);
+            if (!roleResult.Succeeded)
+            {
+                return StatusCode(500, roleResult.Errors);
+            }
+            return Ok(registerUsuarioDto);
         }
     }
 }
