@@ -27,20 +27,13 @@ builder.Services.AddDbContext<CoreDBContext>(options =>
 {
     options.UseMySql(Environment.GetEnvironmentVariable("DEFAULT_CONNECTION_STRING"), new MySqlServerVersion(new Version(8, 0, 32)));
 });
-builder.Services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<CoreDBContext>();
+
 builder.Services.AddHttpClient<IIbgeService, IbgeService>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
-builder.Services.ConfigureIdentityOptions();
 builder.Services.ConfigureAuthOptions(builder.Configuration);
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.User.RequireUniqueEmail = true; // Email deve ser único (pode ajustar se necessário)
-    options.User.AllowedUserNameCharacters = null; // Permite qualquer caractere no username
-});
-builder.Services.AddScoped<IUserValidator<Usuario>, CustomUserValidator<Usuario>>();
 
 var app = builder.Build();
 
