@@ -182,7 +182,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<DateTime>("UltimaModificacao")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("UltimaTentativaLogin")
+                    b.Property<DateTime>("UltimaTentativaFalhaLogin")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("UltimoLogin")

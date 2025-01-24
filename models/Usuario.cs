@@ -24,8 +24,6 @@ namespace ZapAgenda_api_aspnet.models
         public required string NomeInteiro { get; set; }
         public bool Status { get; set; } = true;
         [MinLength(8)]
-        [MaxLength(50, ErrorMessage = "Senha não pode ser maior que 50 caracteres")]
-        [Column(TypeName = "varchar(50)")]
         public required string Senha { get; set; }
         [EmailAddress]
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]

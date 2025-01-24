@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZapAgenda_api_aspnet.Dtos.Usuario
 {
@@ -12,7 +11,6 @@ namespace ZapAgenda_api_aspnet.Dtos.Usuario
         [MaxLength(255, ErrorMessage = "Nome Fantasia não pode ser maior que 255 caracteres")]
         public required string NomeInteiro {get;set;}
         [MinLength(8)]
-        [MaxLength(50, ErrorMessage = "Senha não pode ser maior que 50 caracteres")]
         public  required string Senha { get; set; }
         [EmailAddress]
         [MaxLength(255,ErrorMessage ="Email não pode ser maior que 255 caracteres")]

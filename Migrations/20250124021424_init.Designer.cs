@@ -12,8 +12,8 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250124014133_AdicionaCargoUsuario")]
-    partial class AdicionaCargoUsuario
+    [Migration("20250124021424_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,7 +185,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<DateTime>("UltimaModificacao")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("UltimaTentativaLogin")
+                    b.Property<DateTime>("UltimaTentativaFalhaLogin")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("UltimoLogin")

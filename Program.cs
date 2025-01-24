@@ -10,6 +10,7 @@ using ZapAgenda_api_aspnet.Middlewares;
 using ZapAgenda_api_aspnet.models;
 using Microsoft.AspNetCore.Identity;
 using ZapAgenda_api_aspnet.extensions;
+using ZapAgenda_api_aspnet.services.interfaces;
 
 Env.Load();
 
@@ -34,6 +35,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
+builder.Services.AddScoped<ICriptografarService, CriptografarService>();
 builder.Services.ConfigureAuthOptions(builder.Configuration);
 
 var app = builder.Build();

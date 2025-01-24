@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionaCargos : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,18 +91,19 @@ namespace ZapAgenda_api_aspnet.Migrations
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TentativasLogin = table.Column<int>(type: "int", nullable: false),
-                    UltimaTentativaLogin = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UltimaTentativaFalhaLogin = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     PerfilBloqueado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CargoIdCargo = table.Column<int>(type: "int", nullable: true)
+                    IdCargo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuario", x => x.IdUsuario);
                     table.ForeignKey(
-                        name: "FK_Usuario_Cargo_CargoIdCargo",
-                        column: x => x.CargoIdCargo,
+                        name: "FK_Usuario_Cargo_IdCargo",
+                        column: x => x.IdCargo,
                         principalTable: "Cargo",
-                        principalColumn: "IdCargo");
+                        principalColumn: "IdCargo",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Usuario_Empresa_IdEmpresa",
                         column: x => x.IdEmpresa,
@@ -123,9 +124,9 @@ namespace ZapAgenda_api_aspnet.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuario_CargoIdCargo",
+                name: "IX_Usuario_IdCargo",
                 table: "Usuario",
-                column: "CargoIdCargo");
+                column: "IdCargo");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_IdEmpresa",
