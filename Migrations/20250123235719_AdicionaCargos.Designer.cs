@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZapAgenda_api_aspnet.data;
 
@@ -11,9 +12,11 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    partial class CoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250123235719_AdicionaCargos")]
+    partial class AdicionaCargos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,15 +145,15 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdUsuario"));
 
+                    b.Property<int?>("CargoIdCargo")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<int>("IdCargo")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdEmpresa")
                         .HasColumnType("int");
@@ -190,7 +193,7 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     b.HasKey("IdUsuario");
 
-                    b.HasIndex("IdCargo");
+                    b.HasIndex("CargoIdCargo");
 
                     b.HasIndex("IdEmpresa");
 
@@ -199,19 +202,15 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Usuario", b =>
                 {
-                    b.HasOne("ZapAgenda_api_aspnet.models.Cargo", "Cargo")
+                    b.HasOne("ZapAgenda_api_aspnet.models.Cargo", null)
                         .WithMany("Usuario")
-                        .HasForeignKey("IdCargo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CargoIdCargo");
 
                     b.HasOne("ZapAgenda_api_aspnet.models.Empresa", "Empresa")
                         .WithMany("Usuario")
                         .HasForeignKey("IdEmpresa")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Cargo");
 
                     b.Navigation("Empresa");
                 });

@@ -32,6 +32,7 @@ builder.Services.AddHttpClient<IIbgeService, IbgeService>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
 builder.Services.ConfigureAuthOptions(builder.Configuration);
 

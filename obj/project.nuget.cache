@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Kz7QlS8lqv0=",
+  "dgSpecHash": "QKAiC3aGfPg=",
   "success": true,
   "projectFilePath": "C:\\Users\\Junior\\OneDrive\\Documentos\\Dev\\ZapAgenda-api-aspnet\\ZapAgenda-api-aspnet.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Junior\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Junior\\.nuget\\packages\\dotnetenv\\3.1.1\\dotnetenv.3.1.1.nupkg.sha512",
     "C:\\Users\\Junior\\.nuget\\packages\\fluentassertions\\6.7.0\\fluentassertions.6.7.0.nupkg.sha512",
     "C:\\Users\\Junior\\.nuget\\packages\\fluentresults\\3.16.0\\fluentresults.3.16.0.nupkg.sha512",
