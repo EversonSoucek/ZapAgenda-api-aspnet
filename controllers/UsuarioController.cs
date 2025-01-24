@@ -1,3 +1,4 @@
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Usuario;
 using ZapAgenda_api_aspnet.Mappers;
@@ -21,12 +22,21 @@ namespace ZapAgenda_api_aspnet.controllers
         {
             if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
             {
-                return BadRequest($"Não existe empresa de id{IdEmpresa}");
+                return NotFound($"Não existe empresa de id{IdEmpresa}");
             }
             var usuario = createUsuarioDto.ToCreateUsuarioDto(IdEmpresa);
             await _usuarioRepo.CreateAsync(usuario, IdEmpresa);
             return Ok();
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetByIdEmpresa(int IdEmpresa)
+        {
+            var usuarios = await _usuarioRepo.GetUsuarioByEmpresa(IdEmpresa);
+            if (!usuarios.IsSuccess)
+            {
+                return NotFound(new { message = usuarios.Errors });
+            }
+            return Ok(usuarios.Value);
+        }
     }
 }

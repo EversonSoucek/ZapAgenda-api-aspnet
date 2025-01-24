@@ -17,5 +17,15 @@ namespace ZapAgenda_api_aspnet.Mappers
                 IdCargo = createUsuarioDto.IdCargo
             };
         }
+        public static UsuarioDto ToUsuarioDto (this Usuario usuarioModel) {
+            return new UsuarioDto
+            {
+                IdUsuario = usuarioModel.IdUsuario,
+                NomeInteiro = usuarioModel.NomeInteiro,
+                Email = usuarioModel.Email,
+                NomeUsuario = usuarioModel.NomeUsuario,
+                IdCargo = usuarioModel.IdCargo
+            };
+        }
     }
 }
