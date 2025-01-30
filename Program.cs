@@ -11,6 +11,7 @@ using ZapAgenda_api_aspnet.models;
 using Microsoft.AspNetCore.Identity;
 using ZapAgenda_api_aspnet.extensions;
 using ZapAgenda_api_aspnet.services.interfaces;
+using ZapAgenda_api_aspnet.services.implementantions;
 
 Env.Load();
 

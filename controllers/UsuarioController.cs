@@ -20,18 +20,31 @@ namespace ZapAgenda_api_aspnet.controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, int IdEmpresa)
         {
+            // Validação se a empresa existe
             if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
             {
-                return NotFound($"Não existe empresa de id{IdEmpresa}");
+                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
             }
+
+            // Converte DTO para Model
             var usuario = createUsuarioDto.ToCreateUsuarioDto(IdEmpresa);
-            await _usuarioRepo.CreateAsync(usuario, IdEmpresa);
-            return Ok();
+
+            // Tenta criar o usuário
+            var result = await _usuarioRepo.CreateAsync(usuario, IdEmpresa);
+
+            // Se falhar, retorna os erros
+            if (result.IsFailed)
+            {
+                return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
+            }
+
+            return Ok(usuario);
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetByIdEmpresa(int IdEmpresa)
+        public async Task<IActionResult> GetAllByIdEmpresa(int IdEmpresa)
         {
-            var usuarios = await _usuarioRepo.GetUsuarioByEmpresa(IdEmpresa);
+            var usuarios = await _usuarioRepo.GetUsuariosByEmpresa(IdEmpresa);
             if (!usuarios.IsSuccess)
             {
                 return NotFound(new { message = usuarios.Errors });

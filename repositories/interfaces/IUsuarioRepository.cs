@@ -8,6 +8,6 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
     public interface IUsuarioRepository : IRepository<Usuario>
     {
         Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, int IdEmpresa);
-        Task<Result<List<UsuarioDto>>> GetUsuarioByEmpresa(int IdEmpresa);
+        Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(int IdEmpresa);
     }
 }

@@ -34,7 +34,7 @@ namespace ZapAgenda_api_aspnet.controllers
                     detail: $"Não existe empresa de código: {id}"
                 );
             }
-            return Ok(empresa);
+            return Ok(empresa.Value);
         }
 
         [HttpPost]
