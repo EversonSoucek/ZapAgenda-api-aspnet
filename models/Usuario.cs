@@ -37,5 +37,9 @@ namespace ZapAgenda_api_aspnet.models
         public required int IdCargo { get; set; }
         [ForeignKey("IdCargo")]
         public Cargo Cargo { get; set; } = null!;
+        [MinLength(11, ErrorMessage = "CPF precisa ter 11 digitos")]
+        [MaxLength(11, ErrorMessage = "CPF não pode ter mais que 11 digitos")]
+        [Column(TypeName = "varchar(11)")]
+        public string? Cpf { get; set; } = null;
     }
 }

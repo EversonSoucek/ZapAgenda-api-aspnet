@@ -15,5 +15,6 @@ namespace ZapAgenda_api_aspnet.Dtos.Usuario
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         public string? Email { get; set; }
         public required int IdCargo { get; set; }
+        public string? Cpf { get; set; }
     }
 }

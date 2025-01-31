@@ -22,41 +22,37 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         public async Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(int IdEmpresa)
         {
             var usuarios = await _context.Usuario.Where(usuario => usuario.IdEmpresa == IdEmpresa).Select(s => s.ToUsuarioDto()).ToListAsync();
-            if (usuarios.Count == 0)
-            {
-                return Result.Fail($"Não existe usuários na empresa de id{IdEmpresa}");
-            }
+            if (usuarios.Count == 0) { return Result.Fail($"Não existe usuários na empresa de id{IdEmpresa}"); }
+
             return Result.Ok(usuarios);
         }
 
-       public async Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, int IdEmpresa)
-{
-    // Buscar usuários da empresa
-    var usuariosResult = await _context.Usuario
-        .Where(usuario => usuario.IdEmpresa == IdEmpresa)
-        .ToListAsync(); // Lista de usuários
+        public async Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, int IdEmpresa)
+        {
+            var usuariosResult = await _context.Usuario
+                .Where(usuario => usuario.IdEmpresa == IdEmpresa)
+                .ToListAsync();
 
-    if (usuariosResult == null)
-    {
-        return Result.Fail("Erro ao buscar usuários da empresa.");
-    }
+            if (usuariosResult == null) { return Result.Fail($"Erro ao buscar usuários da empresa de id {IdEmpresa}"); }
 
-    // Verifica se já existe um usuário com o mesmo nome
-    var repetido = VerificaUsuarioDados.VerificaUsuario(usuariosResult, usuarioModel.NomeUsuario);
-    if (repetido.IsFailed)
-    {
-        return Result.Fail<Usuario>(repetido.Errors); // Retorna erro se o nome já existir
-    }
+            var nomeUsuarioRepetido = VerificaUsuarioDados.VerificaUsuario(usuariosResult, usuarioModel);
+            if (nomeUsuarioRepetido.IsFailed) { return Result.Fail<Usuario>(nomeUsuarioRepetido.Errors); }
 
-    usuarioModel.IdEmpresa = IdEmpresa;
-    usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
+            var senhaAutorizada = VerificaUsuarioDados.VerificaSenha(usuarioModel.Senha);
+            if (senhaAutorizada.IsFailed) { return Result.Fail(senhaAutorizada.Errors); }
 
-    await _context.Usuario.AddAsync(usuarioModel);
-    await _context.SaveChangesAsync();
+            usuarioModel.IdEmpresa = IdEmpresa;
+            usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
 
-    return Result.Ok(usuarioModel);
-}
+            await _context.Usuario.AddAsync(usuarioModel);
+            await _context.SaveChangesAsync();
 
+            return Result.Ok(usuarioModel);
+        }
 
+        public Task<Result<Usuario>> UpdateAsync(Usuario usuarioModel, int IdEmpresa)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

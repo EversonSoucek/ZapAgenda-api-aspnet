@@ -14,7 +14,8 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Email = createUsuarioDto.Email,
                 IdEmpresa = IdEmpresa,
                 NomeUsuario = createUsuarioDto.NomeUsuario,
-                IdCargo = createUsuarioDto.IdCargo
+                IdCargo = createUsuarioDto.IdCargo,
+                Cpf = createUsuarioDto.Cpf
             };
         }
         public static UsuarioDto ToUsuarioDto (this Usuario usuarioModel) {
@@ -24,7 +25,8 @@ namespace ZapAgenda_api_aspnet.Mappers
                 NomeInteiro = usuarioModel.NomeInteiro,
                 Email = usuarioModel.Email,
                 NomeUsuario = usuarioModel.NomeUsuario,
-                IdCargo = usuarioModel.IdCargo
+                IdCargo = usuarioModel.IdCargo,
+                Cpf = usuarioModel.Cpf
             };
         }
     }
