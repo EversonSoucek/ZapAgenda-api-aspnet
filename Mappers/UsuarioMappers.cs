@@ -29,5 +29,15 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Cpf = usuarioModel.Cpf
             };
         }
+        public static Usuario ToUpdateUsarioDto(this UpdateUsuarioDto updateUsuarioDto, int IdEmpresa) {
+            return new Usuario {
+                NomeInteiro = updateUsuarioDto.NomeInteiro,
+                Email = updateUsuarioDto.Email,
+                IdEmpresa = IdEmpresa,
+                NomeUsuario = updateUsuarioDto.NomeUsuario,
+                IdCargo = updateUsuarioDto.IdCargo,
+                Cpf = updateUsuarioDto.Cpf
+            };
+        }
     }
 }

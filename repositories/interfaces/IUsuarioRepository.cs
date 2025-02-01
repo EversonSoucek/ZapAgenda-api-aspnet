@@ -9,6 +9,6 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
     {
         Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, int IdEmpresa);
         Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(int IdEmpresa);
-        Task<Result<Usuario>> UpdateAsync(Usuario usuarioModel, int IdEmpresa);
+        Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int IdEmpresa);
     }
 }

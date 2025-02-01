@@ -50,9 +50,27 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
-        public Task<Result<Usuario>> UpdateAsync(Usuario usuarioModel, int IdEmpresa)
+        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int IdUsuario)
         {
-            throw new NotImplementedException();
+            var usuarioModel = await _context.Usuario.FindAsync(IdUsuario);
+
+            if (usuarioModel == null)
+            {
+                return Result.Fail<Usuario>("Usuário não encontrado.");
+            }
+
+            // Atualiza os campos do usuário com os valores do DTO
+            usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario ?? usuarioModel.NomeUsuario;
+            usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro ?? usuarioModel.NomeInteiro;
+            usuarioModel.Email = updateUsuarioDto.Email ?? usuarioModel.Email;
+            usuarioModel.IdCargo = updateUsuarioDto.IdCargo; // Se for obrigatório, sempre será atualizado
+            usuarioModel.Cpf = updateUsuarioDto.Cpf ?? usuarioModel.Cpf;
+
+            _context.Usuario.Update(usuarioModel);
+            await _context.SaveChangesAsync();
+
+            return Result.Ok(usuarioModel);
         }
+
     }
 }
