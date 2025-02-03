@@ -45,13 +45,32 @@ namespace ZapAgenda_api_aspnet.controllers
             }
             return Ok(usuarios.Value);
         }
+
         [HttpPut("{idUsuario}:int")]
-        public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto,[FromRoute]int idUsuario,int IdEmpresa){
-            if(await _empresaRepo.GetByIdAsync(IdEmpresa) == null) {
+        public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, int IdEmpresa)
+        {
+            if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
+            {
                 return NotFound($"Não existe empresa de id{IdEmpresa}");
             }
-            var result = await _usuarioRepo.UpdateAsync(updateUsuarioDto,idUsuario, IdEmpresa);
-            if(!result.IsSuccess) {
+            var result = await _usuarioRepo.UpdateAsync(updateUsuarioDto, idUsuario, IdEmpresa);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Value);
+        }
+
+        [HttpPatch("{idUsuario:int}")]
+        public async Task<IActionResult> UpdateSenhaUsuario([FromBody] UpdateSenhaUsuarioDto updateSenhaUsuarioDto, [FromRoute] int idUsuario, int IdEmpresa)
+        {
+            if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
+            {
+                return NotFound($"Não existe empresa de id{IdEmpresa}");
+            }
+            var result = await _usuarioRepo.UpdateSenhaAsync(updateSenhaUsuarioDto, idUsuario, IdEmpresa);
+            if (result.IsFailed)
+            {
                 return BadRequest(result.Errors);
             }
             return Ok(result.Value);

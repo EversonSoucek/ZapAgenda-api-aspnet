@@ -36,6 +36,8 @@ namespace ZapAgenda_api_aspnet.services.implementantions
             }
             return Result.Ok(true);
         }
+
+
         public static Result<bool> VerificaCpf(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))

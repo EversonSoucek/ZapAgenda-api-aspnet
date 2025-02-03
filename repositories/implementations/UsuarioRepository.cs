@@ -60,25 +60,26 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
-        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int IdUsuario, int IdEmpresa)
+        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int idUsuario, int IdEmpresa)
         {
-            var usuarioModel = await _context.Usuario.FindAsync(IdUsuario);
-
+            var usuarioModel = await _context.Usuario.FindAsync(idUsuario);
             if (usuarioModel == null)
             {
                 return Result.Fail<Usuario>("Usuário não encontrado.");
             }
 
-            if (usuarioModel.IdEmpresa != IdEmpresa)
+            var usuarioPertenceEmpresa = VerificaEmpresa.PertenceEmpresa(usuarioModel.IdEmpresa, IdEmpresa);
+            if (usuarioPertenceEmpresa.IsFailed)
             {
-                return Result.Fail("Usuário não pertence a empresa");
+                return Result.Fail(usuarioPertenceEmpresa.Errors);
             }
 
-            if (updateUsuarioDto.IdCargo == null || updateUsuarioDto.IdCargo != 0)
+            if (updateUsuarioDto.IdCargo != 0)
             {
-                if (!ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo).IsSuccess)
+                var cargoIsValido = ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo);
+                if (cargoIsValido.IsFailed)
                 {
-                    return Result.Fail("Cargo não existe");
+                    return Result.Fail(cargoIsValido.Errors);
                 }
                 usuarioModel.IdCargo = updateUsuarioDto.IdCargo;
             }
@@ -102,5 +103,37 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
+        public async Task<Result<Usuario>> UpdateSenhaAsync(UpdateSenhaUsuarioDto updateSenhaUsuarioDto, int idUsuario, int IdEmpresa)
+        {
+            var usuarioModel = await _context.Usuario.FindAsync(idUsuario);
+            if (usuarioModel == null)
+            {
+                return Result.Fail($"Não existe usuário de id{idUsuario}");
+            }
+
+            var usuarioPertenceEmpresa = VerificaEmpresa.PertenceEmpresa(usuarioModel.IdEmpresa, IdEmpresa);
+            if (usuarioPertenceEmpresa.IsFailed)
+            {
+                return Result.Fail(usuarioPertenceEmpresa.Errors);
+            }
+
+            var senhaAntigaIsCorreta = _criptService.VerifySenha( updateSenhaUsuarioDto.SenhaAntiga, usuarioModel.Senha);
+            if (senhaAntigaIsCorreta.IsFailed)
+            {
+                return Result.Fail(senhaAntigaIsCorreta.Errors);
+            }
+
+            var senhaAutorizada = VerificaUsuarioDados.VerificaSenha(updateSenhaUsuarioDto.Senha);
+            if (senhaAutorizada.IsFailed)
+            {
+                return Result.Fail(senhaAutorizada.Errors);
+            }
+
+            usuarioModel.Senha = updateSenhaUsuarioDto.Senha;
+            usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
+            usuarioModel.UltimaModificacao = DateTime.Now;
+            _context.Usuario.Update(usuarioModel);
+            return Result.Ok(usuarioModel);
+        }
     }
 }
