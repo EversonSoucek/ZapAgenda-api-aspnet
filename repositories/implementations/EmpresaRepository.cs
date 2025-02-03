@@ -73,38 +73,14 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 empresa.Cnpj = empresaDto.Cnpj;
             }
 
-            if (!string.IsNullOrEmpty(empresaDto.NomeFantasia))
-            {
-                empresa.NomeFantasia = empresaDto.NomeFantasia;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.RazaoSocial))
-            {
-                empresa.RazaoSocial = empresaDto.RazaoSocial;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.TipoEmpresa))
-            {
-                empresa.TipoEmpresa = empresaDto.TipoEmpresa;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.Email))
-            {
-                empresa.Email = empresaDto.Email;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.Telefone))
-            {
-                empresa.Telefone = empresaDto.Telefone;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.Cep))
-            {
-                empresa.Cep = empresaDto.Cep;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.NomeMunicipio))
-            {
-                empresa.NomeMunicipio = empresaDto.NomeMunicipio;
-            }
-            if (!string.IsNullOrEmpty(empresaDto.Sigla))
-            {
-                empresa.Sigla = empresaDto.Sigla;
-            }
+            empresa.NomeFantasia = empresaDto.NomeFantasia ?? empresa.NomeFantasia;
+            empresa.RazaoSocial = empresaDto.RazaoSocial ?? empresa.RazaoSocial ;
+            empresa.TipoEmpresa = empresaDto.TipoEmpresa ?? empresa.TipoEmpresa ;
+            empresa.Email = empresaDto.Email ?? empresa.Email ;
+            empresa.Telefone = empresaDto.Telefone ?? empresa.Telefone ;
+            empresa.Cep = empresaDto.Cep ?? empresa.Cep;
+            empresa.NomeMunicipio = empresaDto.NomeMunicipio ?? empresa.NomeMunicipio ;
+            empresa.Sigla = empresaDto.Sigla ?? empresa.Sigla;
 
             await _context.SaveChangesAsync();
             return Result.Ok(empresa);

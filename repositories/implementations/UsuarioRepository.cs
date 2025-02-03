@@ -2,6 +2,7 @@ using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.Dtos.Usuario;
+using ZapAgenda_api_aspnet.helpers;
 using ZapAgenda_api_aspnet.Mappers;
 using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.generic;
@@ -41,6 +42,15 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             var senhaAutorizada = VerificaUsuarioDados.VerificaSenha(usuarioModel.Senha);
             if (senhaAutorizada.IsFailed) { return Result.Fail(senhaAutorizada.Errors); }
 
+            if (!string.IsNullOrEmpty(usuarioModel.Cpf))
+            {
+                var IsCpf = VerificaUsuarioDados.VerificaCpf(usuarioModel.Cpf);
+                if (!IsCpf.IsSuccess)
+                {
+                    return Result.Fail(IsCpf.Errors);
+                }
+            }
+
             usuarioModel.IdEmpresa = IdEmpresa;
             usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
 
@@ -50,7 +60,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
-        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int IdUsuario)
+        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int IdUsuario, int IdEmpresa)
         {
             var usuarioModel = await _context.Usuario.FindAsync(IdUsuario);
 
@@ -59,13 +69,33 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail<Usuario>("Usuário não encontrado.");
             }
 
-            // Atualiza os campos do usuário com os valores do DTO
+            if (usuarioModel.IdEmpresa != IdEmpresa)
+            {
+                return Result.Fail("Usuário não pertence a empresa");
+            }
+
+            if (updateUsuarioDto.IdCargo == null || updateUsuarioDto.IdCargo != 0)
+            {
+                if (!ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo).IsSuccess)
+                {
+                    return Result.Fail("Cargo não existe");
+                }
+                usuarioModel.IdCargo = updateUsuarioDto.IdCargo;
+            }
+
+            if (!string.IsNullOrEmpty(updateUsuarioDto.Cpf))
+            {
+                if (!VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf).IsSuccess)
+                {
+                    return Result.Fail(VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf).Errors);
+                }
+                usuarioModel.Cpf = updateUsuarioDto.Cpf;
+            }
+
             usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario ?? usuarioModel.NomeUsuario;
             usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro ?? usuarioModel.NomeInteiro;
             usuarioModel.Email = updateUsuarioDto.Email ?? usuarioModel.Email;
-            usuarioModel.IdCargo = updateUsuarioDto.IdCargo; // Se for obrigatório, sempre será atualizado
-            usuarioModel.Cpf = updateUsuarioDto.Cpf ?? usuarioModel.Cpf;
-
+            usuarioModel.UltimaModificacao = DateTime.Now;
             _context.Usuario.Update(usuarioModel);
             await _context.SaveChangesAsync();
 
