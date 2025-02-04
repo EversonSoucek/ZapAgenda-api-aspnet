@@ -1,4 +1,3 @@
-using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Usuario;
 using ZapAgenda_api_aspnet.Mappers;
@@ -39,7 +38,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, [FromRoute] Guid IdEmpresa)
+        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
             if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
             {
@@ -52,8 +51,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
             }
-            return Ok("oii");
-            //return CreatedAtAction(nameof(GetById), new { id = usuario.IdUsuario, IdEmpresa }, usuario);
+            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.IdUsuario, IdEmpresa = IdEmpresa }, usuario);
         }
 
         [HttpGet]
