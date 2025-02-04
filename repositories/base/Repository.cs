@@ -17,11 +17,12 @@ namespace ZapAgenda_api_aspnet.repositories.generic
 
         public async Task<Result<T>> GetByIdAsync(int id)
         {
-             var dado = await _dbSet.FindAsync(id);
-             if(dado == null) {
+            var dado = await _dbSet.FindAsync(id);
+            if (dado == null)
+            {
                 return Result.Fail($"Não existe dado com o id:{id}");
-             }
-             return Result.Ok(dado);
+            }
+            return Result.Ok(dado);
         }
         public async Task<T> CreateAsync(T entity)
         {
@@ -38,7 +39,8 @@ namespace ZapAgenda_api_aspnet.repositories.generic
         public async Task<T?> DeleteAsync(int id)
         {
             var modelo = await _dbSet.FindAsync(id);
-            if(modelo == null) {
+            if (modelo == null)
+            {
                 return null;
             }
             _dbSet.Remove(modelo);
@@ -50,6 +52,28 @@ namespace ZapAgenda_api_aspnet.repositories.generic
         {
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Result<T>> GetByGuidAsync(Guid id)
+        {
+            var dado = await _dbSet.FindAsync(id);
+            if (dado == null)
+            {
+                return Result.Fail($"Não existe dado com o id:{id}");
+            }
+            return Result.Ok(dado);
+        }
+
+        public async Task<T?> DeleteAsync(Guid id)
+        {
+            var modelo = await _dbSet.FindAsync(id);
+            if (modelo == null)
+            {
+                return null;
+            }
+            _dbSet.Remove(modelo);
+            await _context.SaveChangesAsync();
+            return modelo;
         }
     }
 }

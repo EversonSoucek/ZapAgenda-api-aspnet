@@ -59,11 +59,9 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Empresa", b =>
                 {
-                    b.Property<int>("IdEmpresa")
+                    b.Property<Guid>("IdEmpresa")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdEmpresa"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Cep")
                         .IsRequired()
@@ -143,7 +141,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdUsuario"));
 
                     b.Property<string>("Cpf")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(11)
+                        .HasColumnType("varchar(11)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
@@ -155,8 +154,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<int>("IdCargo")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEmpresa")
-                        .HasColumnType("int");
+                    b.Property<Guid>("IdEmpresa")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("NomeInteiro")
                         .IsRequired()

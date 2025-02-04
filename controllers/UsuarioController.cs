@@ -18,9 +18,9 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, int IdEmpresa)
+        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
-            if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
             {
                 return NotFound($"Não existe empresa com ID {IdEmpresa}.");
             }
@@ -36,7 +36,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByIdEmpresa(int IdEmpresa)
+        public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
         {
             var usuarios = await _usuarioRepo.GetUsuariosByEmpresa(IdEmpresa);
             if (!usuarios.IsSuccess)
@@ -47,9 +47,9 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpPut("{idUsuario}:int")]
-        public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, int IdEmpresa)
+        public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
-            if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
             {
                 return NotFound($"Não existe empresa de id{IdEmpresa}");
             }
@@ -62,9 +62,9 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpPatch("{idUsuario:int}")]
-        public async Task<IActionResult> UpdateSenhaUsuario([FromBody] UpdateSenhaUsuarioDto updateSenhaUsuarioDto, [FromRoute] int idUsuario, int IdEmpresa)
+        public async Task<IActionResult> UpdateSenhaUsuario([FromBody] UpdateSenhaUsuarioDto updateSenhaUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
-            if (await _empresaRepo.GetByIdAsync(IdEmpresa) == null)
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
             {
                 return NotFound($"Não existe empresa de id{IdEmpresa}");
             }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class AjustaIdEmpresaGUID : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,8 +36,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Empresa",
                 columns: table => new
                 {
-                    IdEmpresa = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NomeFantasia = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Cnpj = table.Column<string>(type: "varchar(14)", maxLength: 14, nullable: false)
@@ -79,21 +78,23 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NomeUsuario = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdEmpresa = table.Column<int>(type: "int", nullable: false),
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UltimoLogin = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     NomeInteiro = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Senha = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                    Senha = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TentativasLogin = table.Column<int>(type: "int", nullable: false),
                     UltimaTentativaFalhaLogin = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     PerfilBloqueado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IdCargo = table.Column<int>(type: "int", nullable: false)
+                    IdCargo = table.Column<int>(type: "int", nullable: false),
+                    Cpf = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

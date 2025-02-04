@@ -20,7 +20,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             _criptService = criptService;
         }
 
-        public async Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(int IdEmpresa)
+        public async Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(Guid IdEmpresa)
         {
             var usuarios = await _context.Usuario.Where(usuario => usuario.IdEmpresa == IdEmpresa).Select(s => s.ToUsuarioDto()).ToListAsync();
             if (usuarios.Count == 0) { return Result.Fail($"Não existe usuários na empresa de id{IdEmpresa}"); }
@@ -28,7 +28,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarios);
         }
 
-        public async Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, int IdEmpresa)
+        public async Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, Guid IdEmpresa)
         {
             var usuariosResult = await _context.Usuario
                 .Where(usuario => usuario.IdEmpresa == IdEmpresa)
@@ -60,7 +60,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
-        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int idUsuario, int IdEmpresa)
+        public async Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int idUsuario, Guid IdEmpresa)
         {
             var usuarioModel = await _context.Usuario.FindAsync(idUsuario);
             if (usuarioModel == null)
@@ -74,28 +74,26 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(usuarioPertenceEmpresa.Errors);
             }
 
-            if (updateUsuarioDto.IdCargo != 0)
+            var cargoIsValido = ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo);
+            if (cargoIsValido.IsFailed)
             {
-                var cargoIsValido = ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo);
-                if (cargoIsValido.IsFailed)
-                {
-                    return Result.Fail(cargoIsValido.Errors);
-                }
-                usuarioModel.IdCargo = updateUsuarioDto.IdCargo;
+                return Result.Fail(cargoIsValido.Errors);
             }
+            usuarioModel.IdCargo = updateUsuarioDto.IdCargo;
 
             if (!string.IsNullOrEmpty(updateUsuarioDto.Cpf))
             {
-                if (!VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf).IsSuccess)
+                var CpfIsValido = VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf);
+                if (CpfIsValido.IsFailed)
                 {
-                    return Result.Fail(VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf).Errors);
+                    return Result.Fail(CpfIsValido.Errors);
                 }
-                usuarioModel.Cpf = updateUsuarioDto.Cpf;
             }
 
-            usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario ?? usuarioModel.NomeUsuario;
-            usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro ?? usuarioModel.NomeInteiro;
-            usuarioModel.Email = updateUsuarioDto.Email ?? usuarioModel.Email;
+
+            usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario;
+            usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro;
+            usuarioModel.Email = updateUsuarioDto.Email;
             usuarioModel.UltimaModificacao = DateTime.Now;
             _context.Usuario.Update(usuarioModel);
             await _context.SaveChangesAsync();
@@ -103,7 +101,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarioModel);
         }
 
-        public async Task<Result<Usuario>> UpdateSenhaAsync(UpdateSenhaUsuarioDto updateSenhaUsuarioDto, int idUsuario, int IdEmpresa)
+        public async Task<Result<Usuario>> UpdateSenhaAsync(UpdateSenhaUsuarioDto updateSenhaUsuarioDto, int idUsuario, Guid IdEmpresa)
         {
             var usuarioModel = await _context.Usuario.FindAsync(idUsuario);
             if (usuarioModel == null)
@@ -117,7 +115,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(usuarioPertenceEmpresa.Errors);
             }
 
-            var senhaAntigaIsCorreta = _criptService.VerifySenha( updateSenhaUsuarioDto.SenhaAntiga, usuarioModel.Senha);
+            var senhaAntigaIsCorreta = _criptService.VerifySenha(updateSenhaUsuarioDto.SenhaAntiga, usuarioModel.Senha);
             if (senhaAntigaIsCorreta.IsFailed)
             {
                 return Result.Fail(senhaAntigaIsCorreta.Errors);

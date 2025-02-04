@@ -23,10 +23,10 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(empresa);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var empresa = await _empresaRepo.GetByIdAsync(id);
+            var empresa = await _empresaRepo.GetByGuidAsync(id);
             if (empresa == null)
             {
                 throw new CustomBadRequest(
@@ -45,8 +45,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { id = empresaModel.IdEmpresa }, empresaModel);
         }
 
-        [HttpDelete("{id}:int")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete("{id}:Guid")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var empresa = await _empresaRepo.DeleteAsync(id);
             if (empresa == null)
@@ -60,8 +60,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return StatusCode(204);
         }
 
-        [HttpPut("{id}:int")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateEmpresaDto empresaDto) {
+        [HttpPut("{id}:Guid")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto) {
             var empresa = await _empresaRepo.UpdateAsync(empresaDto, id ) ?? throw new NullReferenceException($"empresa está nulo ");
             return Ok(empresa.Value);
         }

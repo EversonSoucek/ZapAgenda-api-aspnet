@@ -43,7 +43,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         }
 
 
-        public async Task<Result<Empresa>> UpdateAsync(UpdateEmpresaDto empresaDto, int id)
+        public async Task<Result<Empresa>> UpdateAsync(UpdateEmpresaDto empresaDto, Guid id)
         {
             var empresa = await _context.Empresa.FindAsync(id);
             if (empresa == null)

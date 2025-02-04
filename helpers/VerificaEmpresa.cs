@@ -4,7 +4,7 @@ namespace ZapAgenda_api_aspnet.helpers
 {
     public class VerificaEmpresa
     {
-        public static Result<bool> PertenceEmpresa(int id, int IdEmpresa)
+        public static Result<bool> PertenceEmpresa(Guid id, Guid IdEmpresa)
         {
             if (id != IdEmpresa)
             {

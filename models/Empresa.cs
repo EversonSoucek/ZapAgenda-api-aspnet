@@ -8,7 +8,7 @@ namespace ZapAgenda_api_aspnet.models
     {
         //todo: fazer o IdEmpresa ser complicado e não só autoincrement
         [Key]
-        public int IdEmpresa { get; set; }
+        public Guid IdEmpresa { get; set; } = Guid.NewGuid();
         [Required]
         [MaxLength(255, ErrorMessage = "Nome Fantasia não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
@@ -31,25 +31,25 @@ namespace ZapAgenda_api_aspnet.models
         public string Email { get; set; } = string.Empty;
         [MaxLength(20, ErrorMessage = "Telefone não pode ser maior que 20 caracteres")]
         [Column(TypeName = "varchar(20)")]
-        public string Telefone {get;set;} = string.Empty;
-        [MaxLength(8,ErrorMessage = "Cep não pode ter mais que 8 caracteres")]
+        public string Telefone { get; set; } = string.Empty;
+        [MaxLength(8, ErrorMessage = "Cep não pode ter mais que 8 caracteres")]
         [Column(TypeName = "varchar(8)")]
         public required string Cep { get; set; }
-        [MaxLength(255,ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]
+        [MaxLength(255, ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public required string Logradouro { get; set; }
-        [MaxLength(100,ErrorMessage = "Logradouro não pode ter mais que 100 caracteres")]
+        [MaxLength(100, ErrorMessage = "Logradouro não pode ter mais que 100 caracteres")]
         [Column(TypeName = "varchar(100)")]
         public string? Numero { get; set; }
-        [MaxLength(255,ErrorMessage = "complemento não pode ter mais que 255 caracteres")]
+        [MaxLength(255, ErrorMessage = "complemento não pode ter mais que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public string? Complemento { get; set; }
         [Column(TypeName = "varchar(3)")]
-        [MaxLength(3, ErrorMessage ="Não pode ser maior que 3")]
-        public string Sigla  {get;set;} = null!;
+        [MaxLength(3, ErrorMessage = "Não pode ser maior que 3")]
+        public string Sigla { get; set; } = null!;
         [Column(TypeName = "varchar(255)")]
         [MaxLength(255, ErrorMessage = "Nome do município naõ pode ser maior que 255")]
-        public string NomeMunicipio {get;set;} = null!;
-        public List<Usuario> Usuario {get;set;} = [];
+        public string NomeMunicipio { get; set; } = null!;
+        public List<Usuario> Usuario { get; set; } = [];
     }
 }

@@ -5,7 +5,7 @@ namespace ZapAgenda_api_aspnet.Mappers
 {
     public static class UsuarioMappers
     {
-        public static Usuario ToCreateUsuarioDto(this CreateUsuarioDto createUsuarioDto, int IdEmpresa)
+        public static Usuario ToCreateUsuarioDto(this CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
             return new Usuario
             {
@@ -29,7 +29,7 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Cpf = usuarioModel.Cpf
             };
         }
-        public static Usuario ToUpdateUsarioDto(this UpdateUsuarioDto updateUsuarioDto, int IdEmpresa) {
+        public static Usuario ToUpdateUsarioDto(this UpdateUsuarioDto updateUsuarioDto, Guid IdEmpresa) {
             return new Usuario {
                 NomeInteiro = updateUsuarioDto.NomeInteiro,
                 Email = updateUsuarioDto.Email,
