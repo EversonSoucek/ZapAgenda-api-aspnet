@@ -73,6 +73,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(result.Errors);
             }
+
             return Ok(result.Value);
         }
     }

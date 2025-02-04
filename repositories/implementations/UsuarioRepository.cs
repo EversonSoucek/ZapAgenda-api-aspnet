@@ -129,10 +129,10 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(senhaAutorizada.Errors);
             }
 
-            usuarioModel.Senha = updateSenhaUsuarioDto.Senha;
-            usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
+            usuarioModel.Senha = _criptService.HashSenha(updateSenhaUsuarioDto.Senha);
             usuarioModel.UltimaModificacao = DateTime.Now;
             _context.Usuario.Update(usuarioModel);
+            await _context.SaveChangesAsync();
             return Result.Ok(usuarioModel);
         }
     }
