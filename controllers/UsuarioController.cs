@@ -17,8 +17,29 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
+        [HttpGet("{idUsuario}:int")]
+        public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
+        {
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
+            {
+                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
+            }
+
+            var usuario = await _usuarioRepo.GetByIdAsync(idUsuario);
+            if (usuario == null)
+            {
+                return NotFound($"Não existe usuário de Id: {idUsuario}");
+            }
+
+            if (usuario.Value.IdEmpresa != IdEmpresa)
+            {
+                return BadRequest("Usuário não pertence a empresa");
+            }
+            return Ok(usuario.Value);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
+        public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, [FromRoute] Guid IdEmpresa)
         {
             if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
             {
@@ -31,8 +52,8 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
             }
-
-            return Ok(result.Value);
+            return Ok("oii");
+            //return CreatedAtAction(nameof(GetById), new { id = usuario.IdUsuario, IdEmpresa }, usuario);
         }
 
         [HttpGet]
@@ -74,7 +95,7 @@ namespace ZapAgenda_api_aspnet.controllers
                 return BadRequest(result.Errors);
             }
 
-            return Ok(result.Value);
+            return NoContent();
         }
     }
 }

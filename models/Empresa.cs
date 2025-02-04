@@ -6,7 +6,6 @@ namespace ZapAgenda_api_aspnet.models
     [Table("Empresa")]
     public class Empresa
     {
-        //todo: fazer o IdEmpresa ser complicado e não só autoincrement
         [Key]
         public Guid IdEmpresa { get; set; } = Guid.NewGuid();
         [Required]

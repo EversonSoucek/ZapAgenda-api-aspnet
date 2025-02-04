@@ -56,8 +56,7 @@ namespace ZapAgenda_api_aspnet.controllers
                     detail: $"Não existe empresa de código: {id}"
                 );
             }
-            // todo: Pesquisar os códigos corretos para cada tipo de requisição
-            return StatusCode(204);
+            return NoContent();
         }
 
         [HttpPut("{id}:Guid")]
