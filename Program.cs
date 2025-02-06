@@ -7,11 +7,8 @@ using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 using ZapAgenda_api_aspnet.repositories.implementations;
 using ZapAgenda_api_aspnet.Middlewares;
-using ZapAgenda_api_aspnet.models;
-using Microsoft.AspNetCore.Identity;
 using ZapAgenda_api_aspnet.extensions;
 using ZapAgenda_api_aspnet.services.interfaces;
-using ZapAgenda_api_aspnet.services.implementantions;
 
 Env.Load();
 
@@ -32,12 +29,11 @@ builder.Services.AddDbContext<CoreDBContext>(options =>
 
 builder.Services.AddHttpClient<IIbgeService, IbgeService>();
 builder.Services.AddProblemDetails();
-
+builder.Services.ConfigureAuthOptions(builder.Configuration);
 builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IIbgeService, IbgeService>();
 builder.Services.AddScoped<ICriptografarService, CriptografarService>();
-builder.Services.ConfigureAuthOptions(builder.Configuration);
 
 var app = builder.Build();
 
