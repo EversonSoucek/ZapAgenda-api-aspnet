@@ -22,7 +22,7 @@ namespace ZapAgenda_api_aspnet.services
 
             return isValid
                 ? Result.Ok(true)
-                : Result.Fail("A senha fornecida está incorreta.");
+                : Result.Fail("Credencias invalidas");
         }
     }
 }

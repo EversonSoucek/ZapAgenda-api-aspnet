@@ -133,5 +133,16 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             await _context.SaveChangesAsync();
             return Result.Ok(usuarioModel);
         }
+
+        public async Task<Result<UsuarioComSenhaDto>> GetUsariosByEmpresaAndNomeUsuario(Guid IdEmpresa, string nomeUsuario)
+        {
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(usuario => usuario.NomeUsuario == nomeUsuario && usuario.IdEmpresa == IdEmpresa);
+            if (usuario == null)
+            {
+                return Result.Fail("Não existe Usuário com esse nome de usuário");
+            }
+            var usuarioDto = usuario.ToUsuarioComSenhaDto();
+            return Result.Ok(usuarioDto);
+        }
     }
 }
