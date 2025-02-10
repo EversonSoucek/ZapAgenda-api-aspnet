@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Usuario;
 using ZapAgenda_api_aspnet.Mappers;
@@ -16,6 +17,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
+        [Authorize]
         [HttpGet("{idUsuario}:int")]
         public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
         {
@@ -37,6 +39,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuario.Value);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
@@ -54,6 +57,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.IdUsuario, IdEmpresa = IdEmpresa }, usuario);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
         {
@@ -65,6 +69,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuarios.Value);
         }
 
+        [Authorize]
         [HttpPut("{idUsuario}:int")]
         public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
@@ -80,6 +85,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(result.Value);
         }
 
+        [Authorize]
         [HttpPatch("{idUsuario:int}")]
         public async Task<IActionResult> UpdateSenhaUsuario([FromBody] UpdateSenhaUsuarioDto updateSenhaUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {

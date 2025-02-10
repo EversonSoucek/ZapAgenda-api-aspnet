@@ -26,7 +26,9 @@ namespace ZapAgenda_api_aspnet.extensions
                     ValidateAudience = true,
                     ValidAudience = configuration["JWT:Audience"],
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SIGNINGKEY")))
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SIGNINGKEY"))),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             }
             );
