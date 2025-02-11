@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Empresa;
 using ZapAgenda_api_aspnet.Exceptions;
@@ -23,6 +24,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(empresa);
         }
 
+        [Authorize]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
@@ -37,6 +39,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(empresa.Value);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateEmpresaDto empresaDto)
         {
@@ -45,6 +48,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { id = empresaModel.IdEmpresa }, empresaModel);
         }
 
+        [Authorize]
         [HttpDelete("{id}:Guid")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
@@ -59,9 +63,11 @@ namespace ZapAgenda_api_aspnet.controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("{id}:Guid")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto) {
-            var empresa = await _empresaRepo.UpdateAsync(empresaDto, id ) ?? throw new NullReferenceException($"empresa está nulo ");
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto)
+        {
+            var empresa = await _empresaRepo.UpdateAsync(empresaDto, id) ?? throw new NullReferenceException($"empresa está nulo ");
             return Ok(empresa.Value);
         }
     }

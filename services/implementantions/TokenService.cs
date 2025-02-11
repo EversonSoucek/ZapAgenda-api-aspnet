@@ -4,7 +4,6 @@ using DotNetEnv;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using ZapAgenda_api_aspnet.Dtos.Usuario;
-using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.services.interfaces;
 
 namespace ZapAgenda_api_aspnet.services.implementantions
