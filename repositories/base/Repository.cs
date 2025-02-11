@@ -36,16 +36,16 @@ namespace ZapAgenda_api_aspnet.repositories.generic
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T?> DeleteAsync(int id)
+        public async Task<Result<T>> DeleteAsync(int id)
         {
             var modelo = await _dbSet.FindAsync(id);
             if (modelo == null)
             {
-                return null;
+                return Result.Fail($"Não existe empresa do id: {id}");
             }
             _dbSet.Remove(modelo);
             await _context.SaveChangesAsync();
-            return modelo;
+            return Result.Ok(modelo);
         }
 
         public async Task UpdateAsync(T entity)

@@ -43,6 +43,10 @@ namespace ZapAgenda_api_aspnet.controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateEmpresaDto empresaDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var empresaModel = empresaDto.ToCreateEmpresaDto();
             await _empresaRepo.CreateAsync(empresaModel);
             return CreatedAtAction(nameof(GetById), new { id = empresaModel.IdEmpresa }, empresaModel);
@@ -67,7 +71,15 @@ namespace ZapAgenda_api_aspnet.controllers
         [HttpPut("{id}:Guid")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto)
         {
-            var empresa = await _empresaRepo.UpdateAsync(empresaDto, id) ?? throw new NullReferenceException($"empresa está nulo ");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var empresa = await _empresaRepo.UpdateAsync(empresaDto, id);
+            if (empresa.IsFailed)
+            {
+                return NotFound($"Não existe empresa de id: {id}");
+            }
             return Ok(empresa.Value);
         }
     }
