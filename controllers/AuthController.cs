@@ -29,7 +29,11 @@ namespace ZapAgenda_api_aspnet.controllers
                 return NotFound($"Credenciais inválidas");
             }
             var usuarioValores = usuario.Value;
-            var senhaValida = _cryptService.VerifySenha( loginDto.Senha, usuario.Value.Senha);
+            if (usuarioValores.Status == false)
+            {
+                return BadRequest("Usuário está desativado");
+            }
+            var senhaValida = _cryptService.VerifySenha(loginDto.Senha, usuario.Value.Senha);
             if (senhaValida.IsFailed)
             {
                 return Unauthorized(senhaValida.Errors);

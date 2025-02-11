@@ -20,6 +20,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Usuario
         public string? Email { get; set; }
         public required int IdCargo { get; set; }
         public string? Cpf { get; set; }
-        public string Senha {get;set;} = null!;
+        public string Senha { get; set; } = null!;
+        public bool Status { get; set; }
     }
 }
