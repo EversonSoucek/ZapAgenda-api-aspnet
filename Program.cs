@@ -16,6 +16,14 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyOrigin", builder =>
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -69,6 +77,8 @@ builder.Services.AddScoped<ICriptografarService, CriptografarService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
+
+app.UseCors("AllowMyOrigin");
 
 app.UseMiddleware<CustomExceptionMiddleware>();
 
