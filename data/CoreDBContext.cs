@@ -32,6 +32,9 @@ namespace ZapAgenda_api_aspnet.data
             ];
 
             modelBuilder.Entity<Cargo>().HasData(cargos);
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.Status)
+                .HasConversion<int>();
         }
     }
 }

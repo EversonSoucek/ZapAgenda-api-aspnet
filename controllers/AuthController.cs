@@ -24,12 +24,12 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto, Guid IdEmpresa)
         {
             var usuario = await _usuarioRepo.GetUsariosByEmpresaAndNomeUsuario(IdEmpresa, loginDto.NomeUsuario);
-            if (usuario == null)
+            if (usuario.IsFailed)
             {
                 return NotFound($"Credenciais inválidas");
             }
             var usuarioValores = usuario.Value;
-            if (usuarioValores.Status == false)
+            if (usuarioValores.Status == true)
             {
                 return BadRequest("Usuário está desativado");
             }
