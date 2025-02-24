@@ -6,7 +6,7 @@ using ZapAgenda_api_aspnet.services.interfaces;
 
 namespace ZapAgenda_api_aspnet.controllers
 {
-    [Route("ZapAgenda/{IdEmpresa}/autentificacao")]
+    [Route("{IdEmpresa}/autentificacao")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -49,7 +49,17 @@ namespace ZapAgenda_api_aspnet.controllers
                 IdEmpresa = IdEmpresa
             };
             var token = _tokenService.CreateToken(usuarioDto);
-            return Ok(token);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(1)
+            };
+
+            Response.Cookies.Append("accesToken", token, cookieOptions);
+            return Ok();
         }
     };
 

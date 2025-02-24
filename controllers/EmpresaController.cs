@@ -7,7 +7,7 @@ using ZapAgenda_api_aspnet.repositories.interfaces;
 
 namespace ZapAgenda_api_aspnet.controllers
 {
-    [Route("zapagenda/empresa")]
+    [Route("empresa")]
     [ApiController]
     public class EmpresaController : ControllerBase
     {

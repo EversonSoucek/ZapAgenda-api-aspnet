@@ -6,7 +6,7 @@ using ZapAgenda_api_aspnet.repositories.interfaces;
 
 namespace ZapAgenda_api_aspnet.controllers
 {
-    [Route("Zapagenda/{IdEmpresa}/usuario")]
+    [Route("{IdEmpresa}/usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepo;
