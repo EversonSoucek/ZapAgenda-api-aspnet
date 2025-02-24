@@ -58,7 +58,7 @@ namespace ZapAgenda_api_aspnet.controllers
                 Expires = DateTime.UtcNow.AddDays(1)
             };
 
-            Response.Cookies.Append("accesToken", token, cookieOptions);
+            Response.Cookies.Append("accessToken", token, cookieOptions);
             return Ok();
         }
     };
