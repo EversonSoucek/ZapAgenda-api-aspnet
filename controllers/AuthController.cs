@@ -53,9 +53,10 @@ namespace ZapAgenda_api_aspnet.controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(1)
+                Secure = false,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(1),
+                Path = "/"
             };
 
             Response.Cookies.Append("accessToken", token, cookieOptions);
