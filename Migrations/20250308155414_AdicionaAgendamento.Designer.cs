@@ -12,8 +12,8 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250219033249_ajustacolunastatus")]
-    partial class ajustacolunastatus
+    [Migration("20250308155414_AdicionaAgendamento")]
+    partial class AdicionaAgendamento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,71 @@ namespace ZapAgenda_api_aspnet.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Agendamento", b =>
+                {
+                    b.Property<int>("IdAgendamento")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdAgendamento"));
+
+                    b.Property<DateTime>("DataHoraFim")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataHoraInicio")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("IdEmpresa")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("StatusAgendamento")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("IdAgendamento");
+
+                    b.HasIndex("IdCliente");
+
+                    b.HasIndex("IdEmpresa");
+
+                    b.HasIndex("IdUsuario");
+
+                    b.ToTable("Agendamento");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.AgendamentoServico", b =>
+                {
+                    b.Property<int>("IdAgendamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdServico")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("TempoDuracaoAgendamento")
+                        .HasColumnType("time(6)");
+
+                    b.Property<float>("ValorTotal")
+                        .HasColumnType("float");
+
+                    b.HasKey("IdAgendamento", "IdServico");
+
+                    b.HasIndex("IdServico");
+
+                    b.ToTable("AgendamentoServico");
+                });
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cargo", b =>
                 {
@@ -58,6 +123,57 @@ namespace ZapAgenda_api_aspnet.Migrations
                             IdCargo = 3,
                             NomeCargo = "MaxAdmin"
                         });
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cliente", b =>
+                {
+                    b.Property<int>("IdCliente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdCliente"));
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("varchar(11)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly?>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataUltimoAgendamento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("IdEmpresa")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Nome")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Observacao")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int>("TotalAgendamentos")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdCliente");
+
+                    b.HasIndex("IdEmpresa");
+
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Empresa", b =>
@@ -135,6 +251,35 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.ToTable("Empresa");
                 });
 
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Servico", b =>
+                {
+                    b.Property<int>("IdServico")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdServico"));
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("IdEmpresa")
+                        .HasColumnType("char(36)");
+
+                    b.Property<TimeSpan>("TempoDuracao")
+                        .HasColumnType("time(6)");
+
+                    b.Property<float>("Valor")
+                        .HasColumnType("float");
+
+                    b.HasKey("IdServico");
+
+                    b.HasIndex("IdEmpresa");
+
+                    b.ToTable("Servico");
+                });
+
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Usuario", b =>
                 {
                     b.Property<int>("IdUsuario")
@@ -202,6 +347,74 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.ToTable("Usuario");
                 });
 
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Agendamento", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("IdCliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ZapAgenda_api_aspnet.models.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ZapAgenda_api_aspnet.models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.AgendamentoServico", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Agendamento", "Agendamento")
+                        .WithMany("AgendamentoServico")
+                        .HasForeignKey("IdAgendamento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ZapAgenda_api_aspnet.models.Servico", "Servico")
+                        .WithMany("AgendamentoServico")
+                        .HasForeignKey("IdServico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agendamento");
+
+                    b.Navigation("Servico");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cliente", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Servico", b =>
+                {
+                    b.HasOne("ZapAgenda_api_aspnet.models.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+                });
+
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Usuario", b =>
                 {
                     b.HasOne("ZapAgenda_api_aspnet.models.Cargo", "Cargo")
@@ -221,6 +434,11 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Navigation("Empresa");
                 });
 
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Agendamento", b =>
+                {
+                    b.Navigation("AgendamentoServico");
+                });
+
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cargo", b =>
                 {
                     b.Navigation("Usuario");
@@ -229,6 +447,11 @@ namespace ZapAgenda_api_aspnet.Migrations
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Empresa", b =>
                 {
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("ZapAgenda_api_aspnet.models.Servico", b =>
+                {
+                    b.Navigation("AgendamentoServico");
                 });
 #pragma warning restore 612, 618
         }

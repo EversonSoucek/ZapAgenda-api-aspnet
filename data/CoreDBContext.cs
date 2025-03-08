@@ -11,6 +11,13 @@ namespace ZapAgenda_api_aspnet.data
         public required DbSet<Empresa> Empresa { get; set; }
         public required DbSet<Usuario> Usuario { get; set; }
         public required DbSet<Cargo> Cargo { get; set; }
+        public required DbSet<Servico> Servico { get; set; }
+        public required DbSet<Agendamento> Agendamento { get; set; }
+        public required DbSet<AgendamentoServico> AgendamentoServico { get; set; }
+        public required DbSet<Cliente> Cliente { get; set; }
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +42,9 @@ namespace ZapAgenda_api_aspnet.data
             modelBuilder.Entity<Usuario>()
                 .Property(u => u.Status)
                 .HasConversion<int>();
+
+            modelBuilder.Entity<AgendamentoServico>()
+                .HasKey(asv => new { asv.IdAgendamento, asv.IdServico });
         }
     }
 }
