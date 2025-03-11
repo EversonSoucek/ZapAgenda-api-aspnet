@@ -19,6 +19,7 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Complemento = empresaDto.Complemento,
                 Sigla = empresaDto.Sigla,
                 NomeMunicipio = empresaDto.NomeMunicipio
+                
             };
         }
 

@@ -36,15 +36,15 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             if (usuariosResult == null) { return Result.Fail($"Erro ao buscar usuários da empresa de id {IdEmpresa}"); }
 
-            var nomeUsuarioRepetido = VerificaUsuarioDados.VerificaUsuario(usuariosResult, usuarioModel);
+            var nomeUsuarioRepetido = VerificaDados.VerificaUsuario(usuariosResult, usuarioModel);
             if (nomeUsuarioRepetido.IsFailed) { return Result.Fail<Usuario>(nomeUsuarioRepetido.Errors); }
 
-            var senhaAutorizada = VerificaUsuarioDados.VerificaSenha(usuarioModel.Senha);
+            var senhaAutorizada = VerificaDados.VerificaSenha(usuarioModel.Senha);
             if (senhaAutorizada.IsFailed) { return Result.Fail(senhaAutorizada.Errors); }
 
             if (!string.IsNullOrEmpty(usuarioModel.Cpf))
             {
-                var IsCpf = VerificaUsuarioDados.VerificaCpf(usuarioModel.Cpf);
+                var IsCpf = VerificaDados.VerificaCpf(usuarioModel.Cpf);
                 if (!IsCpf.IsSuccess)
                 {
                     return Result.Fail(IsCpf.Errors);
@@ -83,7 +83,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             if (!string.IsNullOrEmpty(updateUsuarioDto.Cpf))
             {
-                var CpfIsValido = VerificaUsuarioDados.VerificaCpf(updateUsuarioDto.Cpf);
+                var CpfIsValido = VerificaDados.VerificaCpf(updateUsuarioDto.Cpf);
                 if (CpfIsValido.IsFailed)
                 {
                     return Result.Fail(CpfIsValido.Errors);
@@ -121,7 +121,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(senhaAntigaIsCorreta.Errors);
             }
 
-            var senhaAutorizada = VerificaUsuarioDados.VerificaSenha(updateSenhaUsuarioDto.Senha);
+            var senhaAutorizada = VerificaDados.VerificaSenha(updateSenhaUsuarioDto.Senha);
             if (senhaAutorizada.IsFailed)
             {
                 return Result.Fail(senhaAutorizada.Errors);

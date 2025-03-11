@@ -3,7 +3,7 @@ using ZapAgenda_api_aspnet.models;
 
 namespace ZapAgenda_api_aspnet.services.implementantions
 {
-    public static class VerificaUsuarioDados
+    public static class VerificaDados
     {
         public static Result<bool> VerificaUsuario(List<Usuario> usuariosEmpresa, Usuario usuarioModel)
         {
