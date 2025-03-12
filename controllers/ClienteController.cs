@@ -21,22 +21,22 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> GetById([FromRoute] int idCliente, Guid IdEmpresa)
         {
 
-            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
             {
-                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
-            }
-            if(idCliente == 0) {
-                return BadRequest("id é 0");
+                return NotFound(empresa.Errors);
             }
             var cliente = await _clienteRepo.GetByIdAsync(idCliente);
             if (cliente.IsFailed)
             {
-                return BadRequest("Cliente não pertence a empresa");
+                return BadRequest(cliente.Errors);
             }
-            if (cliente == null)
+
+            if (cliente.Value.IdEmpresa != IdEmpresa)
             {
-                return NotFound();
+                return BadRequest("Cliente não percente a empresa");
             }
+
             return Ok(cliente.Value);
         }
 
@@ -44,7 +44,11 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Create([FromBody] CreateClienteDto createClienteDto, Guid IdEmpresa)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
+            {
+                return NotFound(empresa.Errors);
+            }
             var cliente = createClienteDto.ToCreateClienteDto();
             var result = await _clienteRepo.CreateAsync(cliente, IdEmpresa);
             if (result.IsFailed)

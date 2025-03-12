@@ -7,5 +7,6 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
     public interface IClienteRepository : IRepository<Cliente>
     {
         Task<Result<Cliente>> CreateAsync(Cliente cliente, Guid IdEmpresa);
+        Task<List<Cliente>>? GetAllAsync(int IdCliente, Guid IdEmpresa);
     }
 }

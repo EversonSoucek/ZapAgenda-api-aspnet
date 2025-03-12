@@ -1,7 +1,7 @@
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
-
+//todo: tirar essa merda de repositorio genérico
 namespace ZapAgenda_api_aspnet.repositories.generic
 {
     public class Repository<T> : IRepository<T> where T : class

@@ -14,5 +14,14 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Telefone = clienteDto.Telefone
             };
         }
+        public static Cliente ToClienteDto(this Cliente clienteDto) {
+            return new Cliente {
+                Cpf = clienteDto.Cpf,
+                DataNascimento = clienteDto.DataNascimento,
+                Nome = clienteDto.Nome,
+                Observacao = clienteDto.Observacao,
+                Telefone = clienteDto.Telefone
+            };
+        }
     }
 }
