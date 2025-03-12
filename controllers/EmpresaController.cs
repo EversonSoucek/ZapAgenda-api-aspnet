@@ -24,7 +24,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(empresa);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {

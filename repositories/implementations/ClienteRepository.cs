@@ -13,7 +13,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         {
 
         }
-        public new async Task<Result<Cliente>> CreateAsync(Cliente cliente,Guid IdEmpresa)
+        public async Task<Result<Cliente>> CreateAsync(Cliente cliente,Guid IdEmpresa)
         {
             var IsCpf = VerificaDados.VerificaCpf(cliente.Cpf);
             if (IsCpf.IsFailed)
