@@ -61,7 +61,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             clienteValores.Cpf = updateClienteDto.Cpf;
             clienteValores.Nome = updateClienteDto.Nome;
-            //clienteValores.Email = updateClienteDto.Email;
+            clienteValores.Email = updateClienteDto.Email;
             clienteValores.DataNascimento = updateClienteDto.DataNascimento;
             clienteValores.Observacao = updateClienteDto.Observacao;
             clienteValores.Telefone = updateClienteDto.Telefone;

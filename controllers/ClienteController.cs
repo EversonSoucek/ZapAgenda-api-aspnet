@@ -1,4 +1,3 @@
-using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Cliente;
 using ZapAgenda_api_aspnet.Mappers;

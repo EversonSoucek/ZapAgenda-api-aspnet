@@ -11,7 +11,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Cliente
         public string? Nome { get; set; }
         public string Telefone { get; set; } = null!;
         public string Cpf { get; set; } = null!;
-        //public string Email { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public string? Observacao { get; set; }
         public DateOnly? DataNascimento { get; set; }
         public bool Status { get; set; } = true;

@@ -28,9 +28,9 @@ namespace ZapAgenda_api_aspnet.models
         [Column(TypeName = "varchar(500)")]
         public string? Observacao { get; set; }
 
-        /*[MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
+        [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
-        public string Email { get; set; } = string.Empty;*/
+        public string Email { get; set; } = string.Empty;
         public int TotalAgendamentos { get; set; }
         public DateTime DataCadastro { get; set; } = DateTime.Now;
         public DateOnly? DataNascimento { get; set; }
