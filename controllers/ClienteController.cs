@@ -1,3 +1,4 @@
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Cliente;
 using ZapAgenda_api_aspnet.Mappers;
@@ -56,6 +57,27 @@ namespace ZapAgenda_api_aspnet.controllers
                 return BadRequest(result.Errors);
             }
             return CreatedAtAction(nameof(GetById), new { idCliente = cliente.IdCliente, IdEmpresa = IdEmpresa }, cliente);
+        }
+
+        [HttpPut("{IdCliente}:int")]
+        public async Task<IActionResult> Update([FromBody] UpdateClienteDto updateClienteDto, [FromRoute] int IdCliente, Guid IdEmpresa)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
+            {
+                return BadRequest("Empresa não existe");
+            }
+
+            var result = await _clienteRepo.UpdateAsync(updateClienteDto, IdCliente, IdEmpresa);
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Value);
         }
     }
 }

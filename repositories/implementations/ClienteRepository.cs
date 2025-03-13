@@ -1,6 +1,10 @@
+using System.Runtime.CompilerServices;
 using FluentResults;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
+using ZapAgenda_api_aspnet.Dtos.Cliente;
+using ZapAgenda_api_aspnet.helpers;
 using ZapAgenda_api_aspnet.Mappers;
 using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.generic;
@@ -15,9 +19,10 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         {
 
         }
-        public async Task<List<Cliente>> GetAllAsync(int IdCliente, Guid IdEmpresa)
+
+        public async Task<List<Cliente>> GetAllPorEmpresaAsync(Guid IdEmpresa)
         {
-            return await _context.Cliente.Select(cliente => cliente.ToClienteDto()).ToListAsync();
+            return await _context.Cliente.Select(cliente => cliente.ToClienteDto()).Where(cliente => cliente.IdEmpresa == IdEmpresa).ToListAsync();
         }
         public async Task<Result<Cliente>> CreateAsync(Cliente cliente, Guid IdEmpresa)
         {
@@ -27,7 +32,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(IsCpf.Errors);
             }
 
-            var clientes = await GetAllAsync();
+            var clientes = await GetAllPorEmpresaAsync(IdEmpresa);
             if (clientes.FirstOrDefault(cliente => cliente.Cpf == cliente.Cpf) != null)
             {
                 return Result.Fail("Já existe Cliente com o mesmo cpf");
@@ -40,6 +45,44 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(cliente);
         }
 
+        public async Task<Result<Cliente>> UpdateAsync(UpdateClienteDto updateClienteDto, int IdCliente, Guid IdEmpresa)
+        {
+            var cliente = await GetById(IdCliente, IdEmpresa);
+            var clienteValores = cliente.Value;
+            var IsCpf = VerificaDados.VerificaCpf(clienteValores.Cpf);
+            if (IsCpf.IsFailed)
+            {
+                return Result.Fail("Cpf não é valido");
+            }
+            var clientePertenceEmpresa = VerificaEmpresa.PertenceEmpresa(clienteValores.IdEmpresa, IdEmpresa);
+            if (clientePertenceEmpresa.IsFailed)
+            {
+                return Result.Fail("Cliente não pertence a empresa");
+            }
+            clienteValores.Cpf = updateClienteDto.Cpf;
+            clienteValores.Nome = updateClienteDto.Nome;
+            //clienteValores.Email = updateClienteDto.Email;
+            clienteValores.DataNascimento = updateClienteDto.DataNascimento;
+            clienteValores.Observacao = updateClienteDto.Observacao;
+            clienteValores.Telefone = updateClienteDto.Telefone;
+            clienteValores.Status = updateClienteDto.Status;
 
+            await _context.SaveChangesAsync();
+            return Result.Ok(clienteValores);
+        }
+
+        public async Task<Result<Cliente>> GetById(int IdCliente, Guid Idempresa)
+        {
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(cliente => cliente.IdCliente == IdCliente);
+            if (cliente == null)
+            {
+                return Result.Fail($"Não existe cliente do id{IdCliente}");
+            }
+            if (cliente.IdEmpresa != Idempresa)
+            {
+                return Result.Fail("Cliente não pertence a empresa");
+            }
+            return Result.Ok(cliente);
+        }
     }
 }

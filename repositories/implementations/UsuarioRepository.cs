@@ -89,8 +89,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                     return Result.Fail(CpfIsValido.Errors);
                 }
             }
-
-
+            
             usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario;
             usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro;
             usuarioModel.Email = updateUsuarioDto.Email;
