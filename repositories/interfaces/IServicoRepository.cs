@@ -1,0 +1,10 @@
+using FluentResults;
+using ZapAgenda_api_aspnet.models;
+
+namespace ZapAgenda_api_aspnet.repositories.interfaces
+{
+    public interface IServicoRepository
+    {
+        Task<Result<Servico>> CreateAsync(Servico servico, Guid IdEmpresa);
+    }
+}

@@ -78,6 +78,7 @@ builder.Services.AddScoped<IIbgeService, IbgeService>();
 builder.Services.AddScoped<ICriptografarService, CriptografarService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IServicoRepository, ServicoRepository>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using FluentResults;
+using ZapAgenda_api_aspnet.Dtos.Usuario;
 using ZapAgenda_api_aspnet.models;
 
 namespace ZapAgenda_api_aspnet.services.implementantions

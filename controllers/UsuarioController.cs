@@ -39,7 +39,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuario.Value);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
