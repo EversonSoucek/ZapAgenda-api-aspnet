@@ -5,14 +5,13 @@ namespace ZapAgenda_api_aspnet.Mappers
 {
     public static class UsuarioMappers
     {
-        public static Usuario ToCreateUsuarioDto(this CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
+        public static Usuario ToCreateUsuarioDto(this CreateUsuarioDto createUsuarioDto)
         {
             return new Usuario
             {
                 NomeInteiro = createUsuarioDto.NomeInteiro,
                 Senha = createUsuarioDto.Senha,
                 Email = createUsuarioDto.Email,
-                IdEmpresa = IdEmpresa,
                 NomeUsuario = createUsuarioDto.NomeUsuario,
                 IdCargo = createUsuarioDto.IdCargo,
                 Cpf = createUsuarioDto.Cpf

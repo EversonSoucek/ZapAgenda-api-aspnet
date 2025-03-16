@@ -22,7 +22,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<List<Cliente>> GetAllPorEmpresaAsync(Guid IdEmpresa)
         {
-            return await _context.Cliente.Select(cliente => cliente.ToClienteDto()).Where(cliente => cliente.IdEmpresa == IdEmpresa).ToListAsync();
+            return await _context.Cliente.Where(cliente => cliente.IdEmpresa == IdEmpresa).Select(cliente => cliente.ToClienteDto()).ToListAsync();
         }
         public async Task<Result<Cliente>> CreateAsync(Cliente cliente, Guid IdEmpresa)
         {
@@ -33,7 +33,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
 
             var clientes = await GetAllPorEmpresaAsync(IdEmpresa);
-            if (clientes.FirstOrDefault(cliente => cliente.Cpf == cliente.Cpf) != null)
+            if (clientes.FirstOrDefault(c => c.Cpf == cliente.Cpf) != null)
             {
                 return Result.Fail("Já existe Cliente com o mesmo cpf");
             }

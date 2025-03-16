@@ -17,7 +17,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{idUsuario}:int")]
         public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
         {
@@ -51,7 +51,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return NotFound($"Não existe empresa com ID {IdEmpresa}.");
             }
-            var usuario = createUsuarioDto.ToCreateUsuarioDto(IdEmpresa);
+            var usuario = createUsuarioDto.ToCreateUsuarioDto();
 
             var result = await _usuarioRepo.CreateAsync(usuario, IdEmpresa);
             if (result.IsFailed)
