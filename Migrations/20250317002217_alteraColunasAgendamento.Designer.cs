@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZapAgenda_api_aspnet.data;
 
@@ -11,9 +12,11 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    partial class CoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250317002217_alteraColunasAgendamento")]
+    partial class alteraColunasAgendamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +33,7 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdAgendamento"));
 
-                    b.Property<DateTime>("DataHoraFim")
+                    b.Property<DateTime?>("DataHoraFim")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataHoraInicio")
@@ -54,10 +57,10 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<TimeSpan>("TempoDuracaoAgendamento")
+                    b.Property<TimeSpan?>("TempoDuracaoAgendamento")
                         .HasColumnType("time(6)");
 
-                    b.Property<decimal>("ValorTotal")
+                    b.Property<decimal?>("ValorTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("IdAgendamento");

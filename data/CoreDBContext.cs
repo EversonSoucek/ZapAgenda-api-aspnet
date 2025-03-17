@@ -45,6 +45,16 @@ namespace ZapAgenda_api_aspnet.data
 
             modelBuilder.Entity<AgendamentoServico>()
                 .HasKey(asv => new { asv.IdAgendamento, asv.IdServico });
+
+            modelBuilder.Entity<AgendamentoServico>()
+                .HasOne(a => a.Agendamento)
+                .WithMany(a => a.AgendamentoServico)
+                .HasForeignKey(a => a.IdAgendamento);
+
+            modelBuilder.Entity<AgendamentoServico>()
+                .HasOne(a => a.Servico)
+                .WithMany(a => a.AgendamentoServico)
+                .HasForeignKey(a => a.IdServico);
         }
     }
 }

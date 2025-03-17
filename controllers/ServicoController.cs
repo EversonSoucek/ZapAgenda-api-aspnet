@@ -25,6 +25,17 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(servico.Value);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
+        {
+            var servicos = await _servicoRepo.GetAllByEmpresa(IdEmpresa);
+            if (servicos.IsFailed)
+            {
+                return BadRequest(servicos.Errors);
+            }
+            return Ok(servicos);
+        }
+
         //ver pq não retorna o objeto da empresa
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateServicoDto createServicoDto, Guid IdEmpresa)
@@ -39,7 +50,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(result.Errors);
             }
-            return CreatedAtAction(nameof(GetById), new{idServico = servico.IdServico,IdEmpresa = IdEmpresa},servico);
+            return CreatedAtAction(nameof(GetById), new { idServico = servico.IdServico, IdEmpresa = IdEmpresa }, servico);
         }
     }
 }

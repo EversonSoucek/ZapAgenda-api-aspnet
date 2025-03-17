@@ -14,12 +14,15 @@ namespace ZapAgenda_api_aspnet.models
         public int IdAgendamento { get; set; }
         [MaxLength(50, ErrorMessage = "Status não pode ser maior que 50 caracteres")]
         [Column(TypeName = "varchar(50)")]
-        public string StatusAgendamento { get; set; } = null!;
+        public string StatusAgendamento { get; set; } = "Pendente";
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
         [MaxLength(500, ErrorMessage = "Observação não pode ser maior que 500 caracteres")]
         [Column(TypeName = "varchar(500)")]
-        public string Observacao { get; set; } = null!;
+        public string? Observacao { get; set; }
+        public TimeSpan TempoDuracaoAgendamento { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal ValorTotal { get; set; }
         public List<AgendamentoServico> AgendamentoServico { get; set; } = [];
         public int IdCliente { get; set; }
         [ForeignKey("IdCliente")]

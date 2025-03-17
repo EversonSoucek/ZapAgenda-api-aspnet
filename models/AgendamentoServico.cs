@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZapAgenda_api_aspnet.models
@@ -11,7 +12,5 @@ namespace ZapAgenda_api_aspnet.models
         public int IdServico { get; set; }
         [ForeignKey("IdServico")]
         public Servico Servico { get; set; } = null!;
-        public TimeSpan TempoDuracaoAgendamento { get; set; }
-        public float ValorTotal { get; set; }
     }
 }

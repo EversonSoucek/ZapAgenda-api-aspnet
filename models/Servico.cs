@@ -15,7 +15,8 @@ namespace ZapAgenda_api_aspnet.models
         [MaxLength(255, ErrorMessage = "Descrição não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public string Descricao { get; set; } = null!;
-        public float Valor { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Valor { get; set; }
         public TimeSpan TempoDuracao { get; set; }
         public List<AgendamentoServico> AgendamentoServico { get; set; } = [];
     }
