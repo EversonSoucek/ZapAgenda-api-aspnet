@@ -1,6 +1,7 @@
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
+using ZapAgenda_api_aspnet.Dtos.Servico;
 using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 
@@ -43,6 +44,21 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             {
                 return Result.Fail($"Serviço não pertence a empresa");
             }
+            return Result.Ok(servico);
+        }
+
+        public async Task<Result<Servico>> UpdateAsync(UpdateServicoDto updateServicoDto, int IdServico, Guid IdEmpresa)
+        {
+            var servico = await _context.Servico.FindAsync(IdServico);
+            if (servico == null)
+            {
+                return Result.Fail($"Não existe serviço de id{IdServico}");
+            }
+            servico.Descricao = updateServicoDto.Descricao;
+            servico.TempoDuracao = updateServicoDto.TempoDuracao;
+            servico.Valor = updateServicoDto.Valor;
+            _context.Servico.Update(servico);
+            await _context.SaveChangesAsync();
             return Result.Ok(servico);
         }
     }

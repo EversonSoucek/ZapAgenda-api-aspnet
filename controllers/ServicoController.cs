@@ -52,5 +52,20 @@ namespace ZapAgenda_api_aspnet.controllers
             }
             return CreatedAtAction(nameof(GetById), new { idServico = servico.IdServico, IdEmpresa = IdEmpresa }, servico);
         }
+
+        [HttpPut("{idServico}:int")]
+        public async Task<IActionResult> Update([FromBody] UpdateServicoDto updateServicoDto, [FromRoute] int idServico, Guid IdEmpresa)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _servicoRepo.UpdateAsync(updateServicoDto, idServico, IdEmpresa);
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Value);
+        }
     }
 }
