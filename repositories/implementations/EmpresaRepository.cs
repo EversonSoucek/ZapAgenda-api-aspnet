@@ -1,4 +1,5 @@
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.Dtos.Empresa;
 using ZapAgenda_api_aspnet.helpers;
@@ -42,6 +43,15 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return empresaModel;
         }
 
+        public async Task<Result<Empresa>> GetById(Guid IdEmpresa)
+        {
+            var empresa = await _context.Empresa.FirstOrDefaultAsync(emp => emp.IdEmpresa == IdEmpresa);
+            if (empresa == null)
+            {
+                return Result.Fail($"Não existe empresa de id {IdEmpresa}");
+            }
+            return Result.Ok(empresa);
+        }
 
         public async Task<Result<Empresa>> UpdateAsync(UpdateEmpresaDto empresaDto, Guid id)
         {
@@ -74,12 +84,12 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
 
             empresa.NomeFantasia = empresaDto.NomeFantasia ?? empresa.NomeFantasia;
-            empresa.RazaoSocial = empresaDto.RazaoSocial ?? empresa.RazaoSocial ;
-            empresa.TipoEmpresa = empresaDto.TipoEmpresa ?? empresa.TipoEmpresa ;
-            empresa.Email = empresaDto.Email ?? empresa.Email ;
-            empresa.Telefone = empresaDto.Telefone ?? empresa.Telefone ;
+            empresa.RazaoSocial = empresaDto.RazaoSocial ?? empresa.RazaoSocial;
+            empresa.TipoEmpresa = empresaDto.TipoEmpresa ?? empresa.TipoEmpresa;
+            empresa.Email = empresaDto.Email ?? empresa.Email;
+            empresa.Telefone = empresaDto.Telefone ?? empresa.Telefone;
             empresa.Cep = empresaDto.Cep ?? empresa.Cep;
-            empresa.NomeMunicipio = empresaDto.NomeMunicipio ?? empresa.NomeMunicipio ;
+            empresa.NomeMunicipio = empresaDto.NomeMunicipio ?? empresa.NomeMunicipio;
             empresa.Sigla = empresaDto.Sigla ?? empresa.Sigla;
 
             await _context.SaveChangesAsync();
