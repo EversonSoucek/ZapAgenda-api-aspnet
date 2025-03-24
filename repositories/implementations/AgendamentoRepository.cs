@@ -12,10 +12,14 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
     {
         private readonly CoreDBContext _context;
         private readonly IEmpresaRepository _empresaRepo;
-        public AgendamentoRepository(CoreDBContext context, IEmpresaRepository empresaRepo)
+        private readonly IClienteRepository _clienteRepo;
+        private readonly IUsuarioRepository _usuarioRepo;
+        public AgendamentoRepository(CoreDBContext context, IEmpresaRepository empresaRepo, IClienteRepository clienteRepo, IUsuarioRepository usuarioRepo)
         {
             _context = context;
             _empresaRepo = empresaRepo;
+            _clienteRepo = clienteRepo;
+            _usuarioRepo = usuarioRepo;
         }
 
         public async Task<Result<List<Agendamento>>> GetAllByEmpresa(Guid IdEmpresa)
@@ -69,6 +73,20 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             {
                 return Result.Fail(agendamento.Errors);
             }
+
+            var cliente = await _clienteRepo.GetByIdAsync(updateAgendamentoDto.IdCliente);
+            if (cliente.IsFailed)
+            {
+                return Result.Fail(cliente.Errors);
+            }
+
+            var usuario = await _usuarioRepo.GetByIdAsync(updateAgendamentoDto.IdUsuario);
+
+            if (usuario.IsFailed)
+            {
+                return Result.Fail(usuario.Errors);
+            }
+
             var agendamentoValor = agendamento.Value;
             agendamentoValor.IdCliente = updateAgendamentoDto.IdCliente;
             agendamentoValor.IdUsuario = updateAgendamentoDto.IdUsuario;
