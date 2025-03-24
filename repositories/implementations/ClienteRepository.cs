@@ -76,7 +76,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             var cliente = await _context.Cliente.FirstOrDefaultAsync(cliente => cliente.IdCliente == IdCliente);
             if (cliente == null)
             {
-                return Result.Fail($"Não existe cliente do id{IdCliente}");
+                return Result.Fail($"Não existe cliente de id: {IdCliente}");
             }
             if (cliente.IdEmpresa != Idempresa)
             {

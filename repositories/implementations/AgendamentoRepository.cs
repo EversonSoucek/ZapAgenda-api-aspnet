@@ -48,10 +48,49 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         public async Task<Result<Agendamento>> CreateAsync(CreateAgendamentoDto createAgendamentoDto, Guid IdEmpresa)
         {
             var agendamento = createAgendamentoDto.ToCreateAgendamentoDto();
+            var cliente = await _clienteRepo.GetById(createAgendamentoDto.IdCliente, IdEmpresa);
+
+            if (cliente.IsFailed)
+            {
+                return Result.Fail(cliente.Errors);
+            }
+
+            var usuario = await _usuarioRepo.GetByIdAsync(createAgendamentoDto.IdUsuario, IdEmpresa);
+            if (usuario.IsFailed)
+            {
+                return Result.Fail(usuario.Errors);
+            }
+
+            //Está pegando todos serviços arrumar isso
+            var servicos = await _context.Servico
+                .ToListAsync();
+
+            servicos = servicos
+                        .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
+                        .ToList();
+
+            /*
+
+                Ver um jeito de fazer parecido com isso aqui, está puxando todos serviços para post burro pra caramba
+
+                var servicos = await _context.Servico
+                .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
+                .ToListAsync();
+             */
+
+            if (servicos.Count == 0)
+            {
+                return Result.Fail("Não existe os serviços listados");
+            }
+
+            var valorTotal = servicos.Sum(s => s.Valor);
+            var TempoDuracao = servicos.Sum(s => s.TempoDuracao.TotalMinutes);
+
             agendamento.IdEmpresa = IdEmpresa;
-            agendamento.DataHoraFim = DateTime.Parse("10:00");
-            agendamento.ValorTotal = 10;
-            agendamento.TempoDuracaoAgendamento = TimeSpan.FromHours(1);
+
+            agendamento.DataHoraFim = createAgendamentoDto.DataHoraInicio.Add(TimeSpan.FromMinutes(TempoDuracao));
+            agendamento.ValorTotal = valorTotal;
+            agendamento.TempoDuracaoAgendamento = TimeSpan.FromMinutes(TempoDuracao); // Ver possível problema se o agendamento for muito grande tipo mais de um dia
             await _context.Agendamento.AddAsync(agendamento);
             await _context.SaveChangesAsync();
 
@@ -65,6 +104,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             await _context.SaveChangesAsync();
             return Result.Ok(agendamento);
         }
+
         //todo: Adiciona validações está cru
         public async Task<Result<Agendamento>> UpdateAsync(UpdateAgendamentoDto updateAgendamentoDto, int IdAgendamento, Guid IdEmpresa)
         {

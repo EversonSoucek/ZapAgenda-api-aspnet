@@ -89,7 +89,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                     return Result.Fail(CpfIsValido.Errors);
                 }
             }
-            
+
             usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario;
             usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro;
             usuarioModel.Email = updateUsuarioDto.Email;
@@ -142,6 +142,20 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             var usuarioDto = usuario.ToUsuarioComSenhaDto();
             return Result.Ok(usuarioDto);
+        }
+
+        public async Task<Result<Usuario>> GetByIdAsync(int idUsuario, Guid IdEmpresa)
+        {
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(usu => usu.IdUsuario == idUsuario);
+            if (usuario == null)
+            {
+                return Result.Fail($"Não existe usuário de id: {idUsuario}");
+            }
+            if (usuario.IdEmpresa != IdEmpresa)
+            {
+                return Result.Fail($"Usuario não pertence a empresa");
+            }
+            return Result.Ok(usuario);
         }
     }
 }
