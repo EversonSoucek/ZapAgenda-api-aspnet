@@ -73,7 +73,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuarios.Value);
         }
 
-        [HttpGet("/filtro")]
+        [HttpGet("filtro")]
         public async Task<IActionResult> GetAllByEmpresaFiltro(Guid IdEmpresa)
         {
             var usuarios = await _usuarioRepo.GetNomeUsuarioDto(IdEmpresa);
