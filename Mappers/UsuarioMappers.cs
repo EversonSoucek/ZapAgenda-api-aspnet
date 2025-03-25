@@ -56,5 +56,14 @@ namespace ZapAgenda_api_aspnet.Mappers
                 IdUsuario = usuario.IdUsuario
             };
         }
+
+        public static NomeUsuarioDto ToNomeUsuarioDto(this Usuario usuario)
+        {
+            return new NomeUsuarioDto
+            {
+                IdUsuario = usuario.IdUsuario,
+                NomeUsuario = usuario.NomeUsuario
+            };
+        }
     }
 }

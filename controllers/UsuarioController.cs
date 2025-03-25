@@ -61,7 +61,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.IdUsuario, IdEmpresa = IdEmpresa }, usuario);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
         {
@@ -69,6 +69,17 @@ namespace ZapAgenda_api_aspnet.controllers
             if (!usuarios.IsSuccess)
             {
                 return NotFound(new { message = usuarios.Errors });
+            }
+            return Ok(usuarios.Value);
+        }
+
+        [HttpGet("/filtro")]
+        public async Task<IActionResult> GetAllByEmpresaFiltro(Guid IdEmpresa)
+        {
+            var usuarios = await _usuarioRepo.GetNomeUsuarioDto(IdEmpresa);
+            if (usuarios.IsFailed)
+            {
+                return BadRequest(usuarios.Errors);
             }
             return Ok(usuarios.Value);
         }
@@ -115,5 +126,7 @@ namespace ZapAgenda_api_aspnet.controllers
 
             return NoContent();
         }
+
+
     }
 }

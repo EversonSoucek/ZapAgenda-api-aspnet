@@ -157,5 +157,15 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             return Result.Ok(usuario);
         }
+
+        public async Task<Result<List<NomeUsuarioDto>>> GetNomeUsuarioDto(Guid IdEmpresa)
+        {
+            var usuarios = await _context.Usuario.Where(usuario => usuario.IdEmpresa == IdEmpresa).Select(s => s.ToNomeUsuarioDto()).ToListAsync();
+            if (usuarios.Count == 0)
+            {
+                return Result.Fail("Não contém usuários");
+            }
+            return Result.Ok(usuarios);
+        }
     }
 }
