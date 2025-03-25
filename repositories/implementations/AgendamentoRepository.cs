@@ -70,7 +70,6 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                         .ToList();
 
             /*
-
                 Ver um jeito de fazer parecido com isso aqui, está puxando todos serviços para post burro pra caramba
 
                 var servicos = await _context.Servico
@@ -114,13 +113,13 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(agendamento.Errors);
             }
 
-            var cliente = await _clienteRepo.GetByIdAsync(updateAgendamentoDto.IdCliente);
+            var cliente = await _clienteRepo.GetById(updateAgendamentoDto.IdCliente, IdEmpresa);
             if (cliente.IsFailed)
             {
                 return Result.Fail(cliente.Errors);
             }
 
-            var usuario = await _usuarioRepo.GetByIdAsync(updateAgendamentoDto.IdUsuario);
+            var usuario = await _usuarioRepo.GetByIdAsync(updateAgendamentoDto.IdUsuario,IdEmpresa);
 
             if (usuario.IsFailed)
             {
@@ -133,6 +132,10 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             agendamentoValor.Observacao = updateAgendamentoDto.Observacao;
             agendamentoValor.StatusAgendamento = updateAgendamentoDto.StatusAgendamento;
             agendamentoValor.ValorTotal = updateAgendamentoDto.ValorTotal;
+            agendamentoValor.DataHoraInicio = updateAgendamentoDto.DataHoraInicio;
+            agendamentoValor.DataHoraFim = updateAgendamentoDto.DataHoraFim;
+            agendamentoValor.TempoDuracaoAgendamento = updateAgendamentoDto.DataHoraFim - updateAgendamentoDto.DataHoraInicio  ;
+
 
             var agendamentosServicosRemover = await _context.AgendamentoServico.Where(x => x.IdAgendamento == IdAgendamento).ToListAsync();
 
