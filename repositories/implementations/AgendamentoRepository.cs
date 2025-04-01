@@ -22,14 +22,14 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             _usuarioRepo = usuarioRepo;
         }
 
-        public async Task<Result<List<Agendamento>>> GetAllByEmpresa(Guid IdEmpresa)
+        public async Task<Result<List<AgendamentoDto>>> GetAllByEmpresa(Guid IdEmpresa)
         {
             var empresa = await _empresaRepo.GetById(IdEmpresa);
             if (empresa.IsFailed)
             {
                 return Result.Fail($"Não existe empresa de id{IdEmpresa}");
             }
-            return Result.Ok(await _context.Agendamento.Where(agen => agen.IdEmpresa == IdEmpresa).ToListAsync());
+            return Result.Ok(await _context.Agendamento.Include(a => a.Cliente).Include(a => a.Usuario).Where(agen => agen.IdEmpresa == IdEmpresa).Select(agendamento => agendamento.ToAgendamentoDto()).ToListAsync());
         }
 
         public async Task<Result<Agendamento>> GetById(int IdAgendamento, Guid IdEmpresa)
@@ -119,7 +119,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 return Result.Fail(cliente.Errors);
             }
 
-            var usuario = await _usuarioRepo.GetByIdAsync(updateAgendamentoDto.IdUsuario,IdEmpresa);
+            var usuario = await _usuarioRepo.GetByIdAsync(updateAgendamentoDto.IdUsuario, IdEmpresa);
 
             if (usuario.IsFailed)
             {
@@ -134,7 +134,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             agendamentoValor.ValorTotal = updateAgendamentoDto.ValorTotal;
             agendamentoValor.DataHoraInicio = updateAgendamentoDto.DataHoraInicio;
             agendamentoValor.DataHoraFim = updateAgendamentoDto.DataHoraFim;
-            agendamentoValor.TempoDuracaoAgendamento = updateAgendamentoDto.DataHoraFim - updateAgendamentoDto.DataHoraInicio  ;
+            agendamentoValor.TempoDuracaoAgendamento = updateAgendamentoDto.DataHoraFim - updateAgendamentoDto.DataHoraInicio;
 
 
             var agendamentosServicosRemover = await _context.AgendamentoServico.Where(x => x.IdAgendamento == IdAgendamento).ToListAsync();

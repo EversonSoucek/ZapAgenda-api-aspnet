@@ -20,7 +20,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         }
 
-        public async Task<List<Cliente>> GetAllPorEmpresaAsync(Guid IdEmpresa)
+        public async Task<List<ClienteDto>> GetAllPorEmpresaAsync(Guid IdEmpresa)
         {
             return await _context.Cliente.Where(cliente => cliente.IdEmpresa == IdEmpresa).Select(cliente => cliente.ToClienteDto()).ToListAsync();
         }

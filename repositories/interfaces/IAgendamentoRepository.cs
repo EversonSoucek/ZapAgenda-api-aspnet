@@ -8,7 +8,7 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
     {
         Task<Result<Agendamento>> CreateAsync(CreateAgendamentoDto createAgendamentoDto, Guid IdEmpresa);
         Task<Result<Agendamento>> GetById(int IdAgendamento, Guid IdEmpresa);
-        Task<Result<List<Agendamento>>> GetAllByEmpresa(Guid IdEmpresa);
+        Task<Result<List<AgendamentoDto>>> GetAllByEmpresa(Guid IdEmpresa);
         Task<Result<Agendamento>> UpdateAsync(UpdateAgendamentoDto updateAgendamentoDto, int IdAgendamento, Guid IdEmpresa);
     }
 }

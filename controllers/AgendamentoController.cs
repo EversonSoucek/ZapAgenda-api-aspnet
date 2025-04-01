@@ -52,7 +52,7 @@ namespace ZapAgenda_api_aspnet.controllers
             if(agendamento.IsFailed) {
                 return NotFound(agendamento.Errors);
             }
-            return Ok(agendamento);
+            return Ok(agendamento.Value);
         }
 
         [HttpPut("{IdAgendamento}:int")]
