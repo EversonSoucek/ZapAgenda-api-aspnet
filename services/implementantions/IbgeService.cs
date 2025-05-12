@@ -1,6 +1,4 @@
-using System.Net.Http.Headers;
 using FluentResults;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 using ZapAgenda_api_aspnet.interfaces;
 using ZapAgenda_api_aspnet.models;

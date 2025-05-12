@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Cargo")]
+    //Alterar para Enum
     public class Cargo
     {
         [Key]

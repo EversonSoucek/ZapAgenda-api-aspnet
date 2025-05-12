@@ -58,7 +58,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
             }
-            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.IdUsuario, IdEmpresa = IdEmpresa }, usuario);
+            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.Id, IdEmpresa = IdEmpresa }, usuario);
         }
 
         //[Authorize]

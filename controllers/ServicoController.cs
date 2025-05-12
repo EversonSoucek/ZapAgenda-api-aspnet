@@ -50,7 +50,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(result.Errors);
             }
-            return CreatedAtAction(nameof(GetById), new { idServico = servico.IdServico, IdEmpresa = IdEmpresa }, servico);
+            return CreatedAtAction(nameof(GetById), new { idServico = servico.Id, IdEmpresa = IdEmpresa }, servico);
         }
 
         [HttpPut("{idServico}:int")]

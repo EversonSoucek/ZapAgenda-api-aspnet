@@ -21,7 +21,7 @@ namespace ZapAgenda_api_aspnet.Mappers
         {
             return new UsuarioDto
             {
-                IdUsuario = usuarioModel.IdUsuario,
+                IdUsuario = usuarioModel.Id,
                 NomeInteiro = usuarioModel.NomeInteiro,
                 Email = usuarioModel.Email,
                 NomeUsuario = usuarioModel.NomeUsuario,
@@ -53,7 +53,7 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Cpf = usuario.Cpf,
                 NomeInteiro = usuario.NomeInteiro,
                 Email = usuario.Email,
-                IdUsuario = usuario.IdUsuario
+                IdUsuario = usuario.Id
             };
         }
 
@@ -61,7 +61,7 @@ namespace ZapAgenda_api_aspnet.Mappers
         {
             return new NomeUsuarioDto
             {
-                IdUsuario = usuario.IdUsuario,
+                IdUsuario = usuario.Id,
                 NomeUsuario = usuario.NomeUsuario
             };
         }

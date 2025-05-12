@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionaAgendamento : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,7 +74,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Cliente",
                 columns: table => new
                 {
-                    IdCliente = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -85,15 +85,21 @@ namespace ZapAgenda_api_aspnet.Migrations
                     DataUltimoAgendamento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Observacao = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TotalAgendamentos = table.Column<int>(type: "int", nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataNascimento = table.Column<DateOnly>(type: "date", nullable: true),
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModificadoPor = table.Column<int>(type: "int", nullable: false),
+                    DataDesativado = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DesativadoPor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.IdCliente);
+                    table.PrimaryKey("PK_Cliente", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Cliente_Empresa_IdEmpresa",
                         column: x => x.IdEmpresa,
@@ -107,17 +113,23 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Servico",
                 columns: table => new
                 {
-                    IdServico = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Descricao = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Valor = table.Column<float>(type: "float", nullable: false),
-                    TempoDuracao = table.Column<TimeSpan>(type: "time(6)", nullable: false)
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TempoDuracao = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModificadoPor = table.Column<int>(type: "int", nullable: false),
+                    DataDesativado = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DesativadoPor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Servico", x => x.IdServico);
+                    table.PrimaryKey("PK_Servico", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Servico_Empresa_IdEmpresa",
                         column: x => x.IdEmpresa,
@@ -131,17 +143,13 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Usuario",
                 columns: table => new
                 {
-                    IdUsuario = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NomeUsuario = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UltimoLogin = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     NomeInteiro = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Status = table.Column<int>(type: "int", nullable: false),
                     Senha = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
@@ -151,11 +159,18 @@ namespace ZapAgenda_api_aspnet.Migrations
                     PerfilBloqueado = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IdCargo = table.Column<int>(type: "int", nullable: false),
                     Cpf = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModificadoPor = table.Column<int>(type: "int", nullable: false),
+                    DataDesativado = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DesativadoPor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuario", x => x.IdUsuario);
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Usuario_Cargo_IdCargo",
                         column: x => x.IdCargo,
@@ -175,26 +190,34 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Agendamento",
                 columns: table => new
                 {
-                    IdAgendamento = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     StatusAgendamento = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DataHoraInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataHoraFim = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Observacao = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    Observacao = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TempoDuracaoAgendamento = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    ValorTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IdCliente = table.Column<int>(type: "int", nullable: false),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
-                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    IdEmpresa = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UltimaModificacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModificadoPor = table.Column<int>(type: "int", nullable: false),
+                    DataDesativado = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DesativadoPor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Agendamento", x => x.IdAgendamento);
+                    table.PrimaryKey("PK_Agendamento", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Agendamento_Cliente_IdCliente",
                         column: x => x.IdCliente,
                         principalTable: "Cliente",
-                        principalColumn: "IdCliente",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Agendamento_Empresa_IdEmpresa",
@@ -206,7 +229,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                         name: "FK_Agendamento_Usuario_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuario",
-                        principalColumn: "IdUsuario",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -216,9 +239,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                 columns: table => new
                 {
                     IdAgendamento = table.Column<int>(type: "int", nullable: false),
-                    IdServico = table.Column<int>(type: "int", nullable: false),
-                    TempoDuracaoAgendamento = table.Column<TimeSpan>(type: "time(6)", nullable: false),
-                    ValorTotal = table.Column<float>(type: "float", nullable: false)
+                    IdServico = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,13 +248,13 @@ namespace ZapAgenda_api_aspnet.Migrations
                         name: "FK_AgendamentoServico_Agendamento_IdAgendamento",
                         column: x => x.IdAgendamento,
                         principalTable: "Agendamento",
-                        principalColumn: "IdAgendamento",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AgendamentoServico_Servico_IdServico",
                         column: x => x.IdServico,
                         principalTable: "Servico",
-                        principalColumn: "IdServico",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");

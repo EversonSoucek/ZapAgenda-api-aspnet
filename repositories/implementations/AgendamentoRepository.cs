@@ -66,7 +66,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
                 .ToListAsync();
 
             servicos = servicos
-                        .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
+                        .Where(s => createAgendamentoDto.IdServico.Contains((int)s.Id))
                         .ToList();
 
             /*
@@ -95,7 +95,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             var agendamentoServicos = createAgendamentoDto.IdServico.Select(idServico => new AgendamentoServico
             {
-                IdAgendamento = agendamento.IdAgendamento,
+                IdAgendamento = agendamento.Id,
                 IdServico = idServico,
             }).ToList();
 

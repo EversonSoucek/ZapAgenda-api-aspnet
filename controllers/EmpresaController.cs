@@ -53,7 +53,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [Authorize]
-        [HttpDelete("{id}:Guid")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var empresa = await _empresaRepo.DeleteAsync(id);
@@ -67,8 +67,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return NoContent();
         }
 
-        [Authorize]
-        [HttpPut("{id}:Guid")]
+        //[Authorize]
+        [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto)
         {
             if (!ModelState.IsValid)

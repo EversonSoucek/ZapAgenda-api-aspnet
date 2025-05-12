@@ -35,7 +35,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<Servico>> GetById(int IdServico, Guid IdEmpresa)
         {
-            var servico = await _context.Servico.FirstOrDefaultAsync(servico => servico.IdServico == IdServico);
+            var servico = await _context.Servico.FirstOrDefaultAsync(servico => servico.Id == IdServico);
             if (servico == null)
             {
                 return Result.Fail($"Não existe Serviço com id:{IdServico}");

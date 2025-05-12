@@ -55,7 +55,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(result.Errors);
             }
-            return CreatedAtAction(nameof(GetById), new { idCliente = cliente.IdCliente, IdEmpresa = IdEmpresa }, cliente);
+            return CreatedAtAction(nameof(GetById), new { idCliente = cliente.Id, IdEmpresa = IdEmpresa }, cliente);
         }
 
         [HttpPut("{IdCliente}:int")]

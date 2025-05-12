@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Servico")]
-    public class Servico
+    public class Servico : ModeloBase
     {
-        [Key]
-        public int IdServico { get; set; }
-        public Guid IdEmpresa { get; set; }
         [ForeignKey("IdEmpresa")]
         public Empresa Empresa { get; set; } = null!;
         [MinLength(3, ErrorMessage = "Descrição não pode ser menor que 3 caracteres")]

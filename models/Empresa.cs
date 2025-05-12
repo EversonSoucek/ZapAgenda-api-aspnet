@@ -23,7 +23,7 @@ namespace ZapAgenda_api_aspnet.models
         [MaxLength(50, ErrorMessage = "Tipo empresa não pode ser maior que 50 caracteres")]
         [Column(TypeName = "varchar(50)")]
         public required string TipoEmpresa { get; set; }
-        public DateTime DataCadastro { get; set; } = DateTime.Now;
+        public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
         public bool Status { get; set; } = true;
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
@@ -31,7 +31,7 @@ namespace ZapAgenda_api_aspnet.models
         [MaxLength(20, ErrorMessage = "Telefone não pode ser maior que 20 caracteres")]
         [Column(TypeName = "varchar(20)")]
         public string Telefone { get; set; } = string.Empty;
-        [MaxLength(8, ErrorMessage = "Cep não pode ter mais que 8 caracteres")]
+        [MaxLength(8, ErrorMessage = "Cep não pode ter mais que 8 caracteres, não deve ter pontos ou traços")]
         [Column(TypeName = "varchar(8)")]
         public required string Cep { get; set; }
         [MaxLength(255, ErrorMessage = "Logradouro não pode ter mais que 255 caracteres")]

@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Agendamento")]
-    public class Agendamento
+    public class Agendamento : ModeloBase
     {
-        [Key]
-        public int IdAgendamento { get; set; }
         [MaxLength(50, ErrorMessage = "Status não pode ser maior que 50 caracteres")]
         [Column(TypeName = "varchar(50)")]
         public string StatusAgendamento { get; set; } = "Pendente";
@@ -30,7 +24,6 @@ namespace ZapAgenda_api_aspnet.models
         public int IdUsuario { get; set; }
         [ForeignKey("IdUsuario")]
         public Usuario Usuario { get; set; } = null!;
-        public Guid IdEmpresa { get; set; }
         [ForeignKey("IdEmpresa")]
         public Empresa Empresa { get; set; } = null!;
     }

@@ -93,7 +93,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             usuarioModel.NomeUsuario = updateUsuarioDto.NomeUsuario;
             usuarioModel.NomeInteiro = updateUsuarioDto.NomeInteiro;
             usuarioModel.Email = updateUsuarioDto.Email;
-            usuarioModel.UltimaModificacao = DateTime.Now;
+            usuarioModel.UltimaModificacao = DateTime.UtcNow;
             _context.Usuario.Update(usuarioModel);
             await _context.SaveChangesAsync();
 
@@ -146,7 +146,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<Usuario>> GetByIdAsync(int idUsuario, Guid IdEmpresa)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(usu => usu.IdUsuario == idUsuario);
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(usu => usu.Id == idUsuario);
             if (usuario == null)
             {
                 return Result.Fail($"Não existe usuário de id: {idUsuario}");
