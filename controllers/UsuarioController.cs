@@ -18,7 +18,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         //[Authorize]
-        [HttpGet("{idUsuario}:int")]
+        [HttpGet("{idUsuario:int}")]
         public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
         {
             if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
@@ -73,8 +73,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuarios.Value);
         }
 
-        [HttpGet("filtro")]
-        public async Task<IActionResult> GetAllByEmpresaFiltro(Guid IdEmpresa)
+        [HttpGet("opcoes-filtro")]
+        public async Task<IActionResult> GetAllByEmpresaParaFiltro(Guid IdEmpresa)
         {
             var usuarios = await _usuarioRepo.GetNomeUsuarioDto(IdEmpresa);
             if (usuarios.IsFailed)
@@ -85,7 +85,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [Authorize]
-        [HttpPut("{idUsuario}:int")]
+        [HttpPut("{idUsuario:int}")]
         public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
 

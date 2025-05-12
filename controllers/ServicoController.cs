@@ -14,7 +14,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _servicoRepo = servicoRepo;
         }
 
-        [HttpGet("{IdServico}:int")]
+        [HttpGet("{IdServico}")]
         public async Task<IActionResult> GetById([FromRoute] int IdServico, Guid IdEmpresa)
         {
             var servico = await _servicoRepo.GetById(IdServico, IdEmpresa);
@@ -36,7 +36,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(servicos);
         }
 
-        //ver pq não retorna o objeto da empresa
+        //todo:ver pq não retorna o objeto da empresa
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateServicoDto createServicoDto, Guid IdEmpresa)
         {
@@ -53,7 +53,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idServico = servico.Id, IdEmpresa = IdEmpresa }, servico);
         }
 
-        [HttpPut("{idServico}:int")]
+        [HttpPut("{idServico}")]
         public async Task<IActionResult> Update([FromBody] UpdateServicoDto updateServicoDto, [FromRoute] int idServico, Guid IdEmpresa)
         {
             if (!ModelState.IsValid)

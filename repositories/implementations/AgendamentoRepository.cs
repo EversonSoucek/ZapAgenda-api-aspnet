@@ -45,6 +45,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             return Result.Ok(agendamento);
         }
+        //todo: Fazer validação de UTC
         public async Task<Result<Agendamento>> CreateAsync(CreateAgendamentoDto createAgendamentoDto, Guid IdEmpresa)
         {
             var agendamento = createAgendamentoDto.ToCreateAgendamentoDto();

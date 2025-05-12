@@ -17,7 +17,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
 
-        [HttpGet("{idCliente}:int")]
+        [HttpGet("{idCliente}")]
         public async Task<IActionResult> GetById([FromRoute] int idCliente, Guid IdEmpresa)
         {
 
@@ -58,7 +58,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idCliente = cliente.Id, IdEmpresa = IdEmpresa }, cliente);
         }
 
-        [HttpPut("{IdCliente}:int")]
+        [HttpPut("{IdCliente}")]
         public async Task<IActionResult> Update([FromBody] UpdateClienteDto updateClienteDto, [FromRoute] int IdCliente, Guid IdEmpresa)
         {
             if (!ModelState.IsValid)

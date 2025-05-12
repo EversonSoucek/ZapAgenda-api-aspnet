@@ -17,7 +17,7 @@ namespace ZapAgenda_api_aspnet.models
         public Guid IdEmpresa { get; set; }
         [Required]
         [JsonPropertyOrder(99991)]
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
         [Required]
         [JsonPropertyOrder(99992)]
         public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
