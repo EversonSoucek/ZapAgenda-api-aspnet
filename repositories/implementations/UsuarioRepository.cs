@@ -73,12 +73,6 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             {
                 return Result.Fail(usuarioPertenceEmpresa.Errors);
             }
-
-            var cargoIsValido = ValidaCargo.ValidaIdCargo(updateUsuarioDto.IdCargo);
-            if (cargoIsValido.IsFailed)
-            {
-                return Result.Fail(cargoIsValido.Errors);
-            }
             usuarioModel.IdCargo = updateUsuarioDto.IdCargo;
 
             if (!string.IsNullOrEmpty(updateUsuarioDto.Cpf))

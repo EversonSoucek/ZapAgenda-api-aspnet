@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ZapAgenda_api_aspnet.models.Enums;
 
 namespace ZapAgenda_api_aspnet.Dtos.Usuario
 {
@@ -18,7 +19,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Usuario
         [EmailAddress]
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         public string? Email { get; set; }
-        public required int IdCargo { get; set; }
+        public required CargoUsuario IdCargo { get; set; }
         public string? Cpf { get; set; }
         public string Senha { get; set; } = null!;
         public bool Status { get; set; }

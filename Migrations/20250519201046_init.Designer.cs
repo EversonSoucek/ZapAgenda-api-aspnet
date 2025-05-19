@@ -12,8 +12,8 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250512160437_Init")]
-    partial class Init
+    [Migration("20250519201046_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,10 +110,7 @@ namespace ZapAgenda_api_aspnet.Migrations
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cargo", b =>
                 {
                     b.Property<int>("IdCargo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdCargo"));
 
                     b.Property<string>("NomeCargo")
                         .IsRequired()
@@ -127,12 +124,12 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.HasData(
                         new
                         {
-                            IdCargo = 1,
+                            IdCargo = 2,
                             NomeCargo = "Admin"
                         },
                         new
                         {
-                            IdCargo = 2,
+                            IdCargo = 1,
                             NomeCargo = "User"
                         },
                         new

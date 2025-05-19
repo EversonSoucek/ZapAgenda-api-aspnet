@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,8 +21,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                 name: "Cargo",
                 columns: table => new
                 {
-                    IdCargo = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdCargo = table.Column<int>(type: "int", nullable: false),
                     NomeCargo = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -264,8 +263,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                 columns: new[] { "IdCargo", "NomeCargo" },
                 values: new object[,]
                 {
-                    { 1, "Admin" },
-                    { 2, "User" },
+                    { 1, "User" },
+                    { 2, "Admin" },
                     { 3, "MaxAdmin" }
                 });
 

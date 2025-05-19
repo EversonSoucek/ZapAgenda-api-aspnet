@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZapAgenda_api_aspnet.models.Enums;
 
 namespace ZapAgenda_api_aspnet.models
 {
@@ -28,7 +29,7 @@ namespace ZapAgenda_api_aspnet.models
         public int TentativasLogin { get; set; }
         public DateTime UltimaTentativaFalhaLogin { get; set; } = DateTime.MinValue;
         public bool PerfilBloqueado { get; set; } = false;
-        public required int IdCargo { get; set; }
+        public required CargoUsuario IdCargo { get; set; }
         [ForeignKey("IdCargo")]
         public Cargo Cargo { get; set; } = null!;
         [MinLength(11, ErrorMessage = "CPF precisa ter 11 digitos")]
