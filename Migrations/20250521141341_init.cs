@@ -42,8 +42,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RazaoSocial = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TipoEmpresa = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TipoEmpresa = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)

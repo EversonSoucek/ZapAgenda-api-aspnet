@@ -269,10 +269,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("TipoEmpresa")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("TipoEmpresa")
+                        .HasColumnType("int");
 
                     b.HasKey("IdEmpresa");
 

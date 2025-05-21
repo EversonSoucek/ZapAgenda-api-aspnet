@@ -12,7 +12,7 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250519201046_init")]
+    [Migration("20250521141341_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -272,10 +272,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("TipoEmpresa")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("TipoEmpresa")
+                        .HasColumnType("int");
 
                     b.HasKey("IdEmpresa");
 

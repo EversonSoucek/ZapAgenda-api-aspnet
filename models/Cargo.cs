@@ -5,7 +5,6 @@ using ZapAgenda_api_aspnet.models.Enums;
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Cargo")]
-    //Alterar para Enum
     public class Cargo
     {
         [Key]

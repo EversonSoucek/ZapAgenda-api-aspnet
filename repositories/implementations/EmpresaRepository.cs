@@ -87,7 +87,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             empresa.NomeFantasia = empresaDto.NomeFantasia ?? empresa.NomeFantasia;
             empresa.RazaoSocial = empresaDto.RazaoSocial ?? empresa.RazaoSocial;
-            empresa.TipoEmpresa = empresaDto.TipoEmpresa ?? empresa.TipoEmpresa;
+            empresa.TipoEmpresa = empresaDto.TipoEmpresa;
             empresa.Email = empresaDto.Email ?? empresa.Email;
             empresa.Telefone = empresaDto.Telefone ?? empresa.Telefone;
             empresa.Cep = empresaDto.Cep ?? empresa.Cep;
