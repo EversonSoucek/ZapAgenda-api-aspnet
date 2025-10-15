@@ -10,7 +10,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Agendamento
         [MaxLength(500, ErrorMessage = "Observação não pode ser maior que 500 caracteres")]
         [Column(TypeName = "varchar(500)")]
         public string? Observacao { get; set; }
-        public List<int> IdServico { get; set; } = [];
+        public required List<int> IdServico { get; set; }
         public int IdCliente { get; set; }
         public int IdUsuario { get; set; }
     }

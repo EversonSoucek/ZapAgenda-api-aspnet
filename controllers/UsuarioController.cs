@@ -18,7 +18,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         //[Authorize]
-        [HttpGet("{idUsuario}:int")]
+        [HttpGet("{idUsuario}")]
         public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
         {
             if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
@@ -85,7 +85,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [Authorize]
-        [HttpPut("{idUsuario}:int")]
+        [HttpPut("{idUsuario}")]
         public async Task<IActionResult> UpdateUsuario([FromBody] UpdateUsuarioDto updateUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
 
@@ -107,7 +107,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [Authorize]
-        [HttpPatch("{idUsuario:int}")]
+        [HttpPatch("{idUsuario}")]
         public async Task<IActionResult> UpdateSenhaUsuario([FromBody] UpdateSenhaUsuarioDto updateSenhaUsuarioDto, [FromRoute] int idUsuario, Guid IdEmpresa)
         {
             if (!ModelState.IsValid)
@@ -127,6 +127,16 @@ namespace ZapAgenda_api_aspnet.controllers
             return NoContent();
         }
 
+        [HttpDelete("{idUsuario}")]
+        public async Task<IActionResult> Delete([FromRoute] int idUsuario, Guid IdEmpresa)
+        {
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
+            {
+                return NotFound($"Não existe empresa de id{IdEmpresa}");
+            }
+            var result = await _usuarioRepo.DeleteAsync(idUsuario, IdEmpresa);
 
+            return Ok(result.Value);
+        }
     }
 }

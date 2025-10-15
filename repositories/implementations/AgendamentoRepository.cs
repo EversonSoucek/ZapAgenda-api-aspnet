@@ -62,22 +62,20 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
 
             //Está pegando todos serviços arrumar isso
-            var servicos = await _context.Servico
-                .ToListAsync();
+            /*      var servicos = await _context.Servico
+                      .ToListAsync();
 
-            servicos = servicos
-                        .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
-                        .ToList();
+                  servicos = servicos
+                              .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
+                              .ToList();*/
 
-            /*
-                Ver um jeito de fazer parecido com isso aqui, está puxando todos serviços para post burro pra caramba
 
-                var servicos = await _context.Servico
-                .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
-                .ToListAsync();
-             */
+            var servicos = _context.Servico
+            .AsEnumerable()
+            .Where(s => createAgendamentoDto.IdServico.Contains(s.IdServico))
+            .ToList();
 
-            if (servicos.Count == 0)
+            if (servicos.Count() == 0)
             {
                 return Result.Fail("Não existe os serviços listados");
             }
