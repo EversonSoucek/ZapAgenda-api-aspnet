@@ -18,6 +18,8 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             _ibgeservice = ibgeService;
         }
 
+        //todo: testar se está sendo feito a verificação de cep com a cidade
+        //todo: Adicionar put para alterar status da empresa
         public new async Task<Empresa> CreateAsync(Empresa empresaModel)
         {
             var cidadeExiste = await _ibgeservice.SeMunicipioExiste(empresaModel.NomeMunicipio, empresaModel.Sigla);
@@ -85,7 +87,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             empresa.NomeFantasia = empresaDto.NomeFantasia ?? empresa.NomeFantasia;
             empresa.RazaoSocial = empresaDto.RazaoSocial ?? empresa.RazaoSocial;
-            empresa.TipoEmpresa = empresaDto.TipoEmpresa ?? empresa.TipoEmpresa;
+            empresa.TipoEmpresa = empresaDto.TipoEmpresa;
             empresa.Email = empresaDto.Email ?? empresa.Email;
             empresa.Telefone = empresaDto.Telefone ?? empresa.Telefone;
             empresa.Cep = empresaDto.Cep ?? empresa.Cep;

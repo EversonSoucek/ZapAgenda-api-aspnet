@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
 using FluentResults;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using ZapAgenda_api_aspnet.data;
 using ZapAgenda_api_aspnet.Dtos.Cliente;
@@ -73,7 +71,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<Cliente>> GetById(int IdCliente, Guid Idempresa)
         {
-            var cliente = await _context.Cliente.FirstOrDefaultAsync(cliente => cliente.IdCliente == IdCliente);
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(cliente => cliente.Id == IdCliente);
             if (cliente == null)
             {
                 return Result.Fail($"Não existe cliente de id: {IdCliente}");

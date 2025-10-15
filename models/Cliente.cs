@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Cliente")]
-    public class Cliente
+    public class Cliente : ModeloBase
     {
-        [Key]
-        public int IdCliente { get; set; }
-
         [MinLength(3)]
         [MaxLength(200, ErrorMessage = "Nome não pode ser maior que 200 caracteres")]
         [Column(TypeName = "varchar(200)")]
@@ -32,10 +30,7 @@ namespace ZapAgenda_api_aspnet.models
         [Column(TypeName = "varchar(255)")]
         public string Email { get; set; } = string.Empty;
         public int TotalAgendamentos { get; set; }
-        public DateTime DataCadastro { get; set; } = DateTime.Now;
         public DateOnly? DataNascimento { get; set; }
-        public bool Status { get; set; } = true;
-        public Guid IdEmpresa { get; set; }
         [ForeignKey("IdEmpresa")]
         public Empresa Empresa { get; set; } = null!;
     }

@@ -22,15 +22,15 @@ namespace ZapAgenda_api_aspnet.data
 
             List<Cargo> cargos = [
                 new Cargo {
-                    IdCargo = 1,
+                    IdCargo = models.Enums.CargoUsuario.ADMIN,
                     NomeCargo = "Admin"
                 },
                 new Cargo {
-                    IdCargo = 2,
+                    IdCargo = models.Enums.CargoUsuario.USER,
                     NomeCargo = "User"
                 },
                 new Cargo {
-                    IdCargo = 3,
+                    IdCargo = models.Enums.CargoUsuario.MAXADMIN,
                     NomeCargo = "MaxAdmin"
                 },
             ];

@@ -1,28 +1,23 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZapAgenda_api_aspnet.models.Enums;
 
 namespace ZapAgenda_api_aspnet.models
 {
     [Table("Usuario")]
-    public class Usuario
+    public class Usuario : ModeloBase
     {
-        [Key]
-        public int IdUsuario { get; set; }
         [MinLength(4)]
         [MaxLength(50, ErrorMessage = "Nome de usuário não pode ser maior que 50 caracteres")]
         [Column(TypeName = "varchar(50)")]
         public required string NomeUsuario { get; set; }
-        public Guid IdEmpresa { get; set; }
         [ForeignKey("IdEmpresa")]
         public Empresa Empresa { get; set; } = null!;
-        public DateTime UltimoLogin { get; set; } = DateTime.Now;
-        public DateTime UltimaModificacao { get; set; } = DateTime.Now;
-        public DateTime DataCadastro { get; set; } = DateTime.Now;
+        public DateTime UltimoLogin { get; set; } = DateTime.UtcNow;
         [MinLength(3)]
         [MaxLength(255, ErrorMessage = "Nome Fantasia não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public required string NomeInteiro { get; set; }
-        public bool Status { get; set; } = true;
         [MinLength(8)]
         [MaxLength(255, ErrorMessage = "Nome Fantasia não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
@@ -34,7 +29,7 @@ namespace ZapAgenda_api_aspnet.models
         public int TentativasLogin { get; set; }
         public DateTime UltimaTentativaFalhaLogin { get; set; } = DateTime.MinValue;
         public bool PerfilBloqueado { get; set; } = false;
-        public required int IdCargo { get; set; }
+        public required CargoUsuario IdCargo { get; set; }
         [ForeignKey("IdCargo")]
         public Cargo Cargo { get; set; } = null!;
         [MinLength(11, ErrorMessage = "CPF precisa ter 11 digitos")]

@@ -45,6 +45,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             return Result.Ok(agendamento);
         }
+        //todo: Fazer validação de UTC
         public async Task<Result<Agendamento>> CreateAsync(CreateAgendamentoDto createAgendamentoDto, Guid IdEmpresa)
         {
             var agendamento = createAgendamentoDto.ToCreateAgendamentoDto();
@@ -62,18 +63,18 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
 
             //Está pegando todos serviços arrumar isso
-            /*      var servicos = await _context.Servico
+            var servicos = await _context.Servico
                       .ToListAsync();
 
-                  servicos = servicos
-                              .Where(s => createAgendamentoDto.IdServico.Contains((int)s.IdServico))
-                              .ToList();*/
+            // servicos = servicos
+            //             .Where(s => createAgendamentoDto.IdServico.Contains((int)s.Id))
+            //             .ToList();
 
 
-            var servicos = _context.Servico
-            .AsEnumerable()
-            .Where(s => createAgendamentoDto.IdServico.Contains(s.IdServico))
-            .ToList();
+            // var servicos = _context.Servico
+            // .AsEnumerable()
+            // .Where(s => createAgendamentoDto.IdServico.Contains(s.IdServico))
+            // .ToList();
 
             if (servicos.Count() == 0)
             {
@@ -93,7 +94,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
             var agendamentoServicos = createAgendamentoDto.IdServico.Select(idServico => new AgendamentoServico
             {
-                IdAgendamento = agendamento.IdAgendamento,
+                IdAgendamento = agendamento.Id,
                 IdServico = idServico,
             }).ToList();
 

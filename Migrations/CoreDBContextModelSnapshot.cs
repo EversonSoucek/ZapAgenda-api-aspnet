@@ -24,17 +24,26 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Agendamento", b =>
                 {
-                    b.Property<int>("IdAgendamento")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdAgendamento"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataDesativado")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataHoraFim")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataHoraInicio")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DesativadoPor")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
@@ -45,9 +54,15 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
+                    b.Property<int>("ModificadoPor")
+                        .HasColumnType("int");
+
                     b.Property<string>("Observacao")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("StatusAgendamento")
                         .IsRequired()
@@ -57,10 +72,13 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<TimeSpan>("TempoDuracaoAgendamento")
                         .HasColumnType("time(6)");
 
+                    b.Property<DateTime>("UltimaModificacao")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("IdAgendamento");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
 
@@ -89,10 +107,7 @@ namespace ZapAgenda_api_aspnet.Migrations
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cargo", b =>
                 {
                     b.Property<int>("IdCargo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdCargo"));
 
                     b.Property<string>("NomeCargo")
                         .IsRequired()
@@ -106,12 +121,12 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.HasData(
                         new
                         {
-                            IdCargo = 1,
+                            IdCargo = 2,
                             NomeCargo = "Admin"
                         },
                         new
                         {
-                            IdCargo = 2,
+                            IdCargo = 1,
                             NomeCargo = "User"
                         },
                         new
@@ -123,11 +138,11 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Cliente", b =>
                 {
-                    b.Property<int>("IdCliente")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdCliente"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Cpf")
                         .IsRequired()
@@ -137,11 +152,17 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime>("DataDesativado")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateOnly?>("DataNascimento")
                         .HasColumnType("date");
 
                     b.Property<DateTime>("DataUltimoAgendamento")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DesativadoPor")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -150,6 +171,9 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     b.Property<Guid>("IdEmpresa")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("ModificadoPor")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .HasMaxLength(200)
@@ -170,7 +194,10 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<int>("TotalAgendamentos")
                         .HasColumnType("int");
 
-                    b.HasKey("IdCliente");
+                    b.Property<DateTime>("UltimaModificacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IdEmpresa");
 
@@ -242,10 +269,8 @@ namespace ZapAgenda_api_aspnet.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
-                    b.Property<string>("TipoEmpresa")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("TipoEmpresa")
+                        .HasColumnType("int");
 
                     b.HasKey("IdEmpresa");
 
@@ -254,11 +279,20 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Servico", b =>
                 {
-                    b.Property<int>("IdServico")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdServico"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataDesativado")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DesativadoPor")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -268,13 +302,22 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<Guid>("IdEmpresa")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("ModificadoPor")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<TimeSpan>("TempoDuracao")
                         .HasColumnType("time(6)");
+
+                    b.Property<DateTime>("UltimaModificacao")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("IdServico");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdEmpresa");
 
@@ -283,11 +326,11 @@ namespace ZapAgenda_api_aspnet.Migrations
 
             modelBuilder.Entity("ZapAgenda_api_aspnet.models.Usuario", b =>
                 {
-                    b.Property<int>("IdUsuario")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdUsuario"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Cpf")
                         .HasMaxLength(11)
@@ -295,6 +338,12 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataDesativado")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DesativadoPor")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(255)
@@ -305,6 +354,9 @@ namespace ZapAgenda_api_aspnet.Migrations
 
                     b.Property<Guid>("IdEmpresa")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("ModificadoPor")
+                        .HasColumnType("int");
 
                     b.Property<string>("NomeInteiro")
                         .IsRequired()
@@ -339,7 +391,7 @@ namespace ZapAgenda_api_aspnet.Migrations
                     b.Property<DateTime>("UltimoLogin")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("IdUsuario");
+                    b.HasKey("Id");
 
                     b.HasIndex("IdCargo");
 

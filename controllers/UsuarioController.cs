@@ -58,7 +58,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
             }
-            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.IdUsuario, IdEmpresa = IdEmpresa }, usuario);
+            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.Id, IdEmpresa = IdEmpresa }, usuario);
         }
 
         //[Authorize]
@@ -73,8 +73,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuarios.Value);
         }
 
-        [HttpGet("filtro")]
-        public async Task<IActionResult> GetAllByEmpresaFiltro(Guid IdEmpresa)
+        [HttpGet("opcoes-filtro")]
+        public async Task<IActionResult> GetAllByEmpresaParaFiltro(Guid IdEmpresa)
         {
             var usuarios = await _usuarioRepo.GetNomeUsuarioDto(IdEmpresa);
             if (usuarios.IsFailed)

@@ -26,7 +26,7 @@ namespace ZapAgenda_api_aspnet.Mappers
             {
                 DataHoraFim = agendamento.DataHoraFim,
                 DataHoraInicio = agendamento.DataHoraInicio,
-                IdAgendamento = agendamento.IdAgendamento,
+                IdAgendamento = agendamento.Id,
                 IdCliente = agendamento.IdCliente,
                 IdUsuario = agendamento.IdUsuario,
                 Observacao = agendamento.Observacao,

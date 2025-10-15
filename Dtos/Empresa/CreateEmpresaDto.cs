@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZapAgenda_api_aspnet.models.Enums;
 
 
 namespace ZapAgenda_api_aspnet.Dtos.Empresa
@@ -15,9 +16,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Empresa
         [MaxLength(255, ErrorMessage = "Razão Social não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         public required string RazaoSocial { get; set; }
-        [MaxLength(50, ErrorMessage = "Tipo empresa não pode ser maior que 50 caracteres")]
-        [Column(TypeName = "varchar(50)")]
-        public required string TipoEmpresa { get; set; }
+        public required TipoEmpresa TipoEmpresa { get; set; }
         [MaxLength(255, ErrorMessage = "Email não pode ser maior que 255 caracteres")]
         [Column(TypeName = "varchar(255)")]
         [EmailAddress]

@@ -36,7 +36,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(servicos);
         }
 
-        //ver pq não retorna o objeto da empresa
+        //todo:ver pq não retorna o objeto da empresa
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateServicoDto createServicoDto, Guid IdEmpresa)
         {
@@ -50,7 +50,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(result.Errors);
             }
-            return CreatedAtAction(nameof(GetById), new { idServico = servico.IdServico, IdEmpresa = IdEmpresa }, servico);
+            return CreatedAtAction(nameof(GetById), new { idServico = servico.Id, IdEmpresa = IdEmpresa }, servico);
         }
 
         [HttpPut("{idServico}")]
