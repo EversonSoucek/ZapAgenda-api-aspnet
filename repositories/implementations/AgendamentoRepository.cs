@@ -26,11 +26,23 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
         {
             var empresa = await _empresaRepo.GetById(IdEmpresa);
             if (empresa.IsFailed)
-            {
-                return Result.Fail($"Não existe empresa de id{IdEmpresa}");
-            }
-            return Result.Ok(await _context.Agendamento.Include(a => a.Cliente).Include(a => a.Usuario).Where(agen => agen.IdEmpresa == IdEmpresa).Select(agendamento => agendamento.ToAgendamentoDto()).ToListAsync());
+                return Result.Fail($"Não existe empresa de id {IdEmpresa}");
+
+            // Inclui os serviços junto com Cliente e Usuario
+            var agendamentos = await _context.Agendamento
+    .Include(a => a.Cliente)
+    .Include(a => a.Usuario)
+    .Include(a => a.AgendamentoServico)
+        .ThenInclude(asv => asv.Servico) // <- inclui o Servico dentro do AgendamentoServico
+    .Where(agen => agen.IdEmpresa == IdEmpresa)
+    .ToListAsync();
+
+
+            var agendamentoDtos = agendamentos.Select(a => a.ToAgendamentoDto()).ToList();
+
+            return Result.Ok(agendamentoDtos);
         }
+
 
         public async Task<Result<Agendamento>> GetById(int IdAgendamento, Guid IdEmpresa)
         {

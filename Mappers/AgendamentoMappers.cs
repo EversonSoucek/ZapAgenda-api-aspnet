@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ZapAgenda_api_aspnet.Dtos.Agendamento;
+using ZapAgenda_api_aspnet.Dtos.AgendamentoServico;
 using ZapAgenda_api_aspnet.models;
 
 namespace ZapAgenda_api_aspnet.Mappers
@@ -34,7 +31,18 @@ namespace ZapAgenda_api_aspnet.Mappers
                 TempoDuracaoAgendamento = agendamento.TempoDuracaoAgendamento,
                 ValorTotal = agendamento.ValorTotal,
                 Cliente = agendamento.Cliente.ToClienteDto(),
-                Usuario = agendamento.Usuario.ToUsuarioDto()
+                // Usuario = agendamento.Usuario.ToUsuarioDto(),
+
+                // Mapeia apenas para o DTO simplificado, evitando loop infinito
+                AgendamentoServico = agendamento.AgendamentoServico
+    .Select(s => new AgendamentoServicoDto
+    {
+        IdAgendamento = s.IdAgendamento,
+        IdServico = s.IdServico,
+        Servico = s.Servico?.ToServicoDto()  // ? garante que não quebre se Servico for nulo
+    })
+    .ToList()
+
             };
         }
     }
