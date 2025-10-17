@@ -1,3 +1,5 @@
+using ZapAgenda_api_aspnet.models.Enums;
+
 namespace ZapAgenda_api_aspnet.Dtos.Agendamento
 {
     public class UpdateAgendamentoDto
@@ -9,6 +11,6 @@ namespace ZapAgenda_api_aspnet.Dtos.Agendamento
         public int IdCliente { get; set; }
         public int IdUsuario { get; set; }
         public decimal ValorTotal { get; set; }
-        public string StatusAgendamento { get; set; } = null!;
+        public StatusAgendamento StatusAgendamento { get; set; }
     }
 }

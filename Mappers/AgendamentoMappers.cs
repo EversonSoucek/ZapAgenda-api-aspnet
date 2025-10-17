@@ -33,13 +33,12 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Cliente = agendamento.Cliente.ToClienteDto(),
                 // Usuario = agendamento.Usuario.ToUsuarioDto(),
 
-                // Mapeia apenas para o DTO simplificado, evitando loop infinito
                 AgendamentoServico = agendamento.AgendamentoServico
     .Select(s => new AgendamentoServicoDto
     {
         IdAgendamento = s.IdAgendamento,
         IdServico = s.IdServico,
-        Servico = s.Servico?.ToServicoDto()  // ? garante que não quebre se Servico for nulo
+        Servico = s.Servico?.ToServicoDto()
     })
     .ToList()
 

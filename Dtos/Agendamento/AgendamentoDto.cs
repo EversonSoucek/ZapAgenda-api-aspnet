@@ -1,12 +1,13 @@
 using ZapAgenda_api_aspnet.Dtos.AgendamentoServico;
 using ZapAgenda_api_aspnet.Dtos.Cliente;
+using ZapAgenda_api_aspnet.models.Enums;
 
 namespace ZapAgenda_api_aspnet.Dtos.Agendamento
 {
     public class AgendamentoDto
     {
         public int IdAgendamento { get; set; }
-        public string StatusAgendamento { get; set; } = "Pendente";
+        public StatusAgendamento StatusAgendamento { get; set; } = StatusAgendamento.PENDENTE;
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
         public string? Observacao { get; set; }

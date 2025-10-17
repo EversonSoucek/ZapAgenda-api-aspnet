@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZapAgenda_api_aspnet.models.Enums;
 
 namespace ZapAgenda_api_aspnet.models
 {
@@ -8,7 +9,7 @@ namespace ZapAgenda_api_aspnet.models
     {
         [MaxLength(50, ErrorMessage = "Status não pode ser maior que 50 caracteres")]
         [Column(TypeName = "varchar(50)")]
-        public string StatusAgendamento { get; set; } = "Pendente";
+        public StatusAgendamento StatusAgendamento { get; set; } = StatusAgendamento.PENDENTE;
         public DateTime DataHoraInicio { get; set; }
         public DateTime DataHoraFim { get; set; }
         [MaxLength(500, ErrorMessage = "Observação não pode ser maior que 500 caracteres")]

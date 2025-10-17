@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZapAgenda_api_aspnet.models;
 
 namespace ZapAgenda_api_aspnet.Dtos.Agendamento
 {

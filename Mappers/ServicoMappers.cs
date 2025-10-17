@@ -5,7 +5,6 @@ namespace ZapAgenda_api_aspnet.Mappers
 {
     public static class ServicoMappers
     {
-        // Mapper existente: CreateServicoDto -> Servico
         public static Servico ToCreateServicoDto(this CreateServicoDto createServicoDto)
         {
             return new Servico
@@ -16,7 +15,6 @@ namespace ZapAgenda_api_aspnet.Mappers
             };
         }
 
-        // Novo mapper: Servico -> ServicoDto
         public static ServicoDto ToServicoDto(this Servico servico)
         {
             return new ServicoDto
