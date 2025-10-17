@@ -67,5 +67,17 @@ namespace ZapAgenda_api_aspnet.controllers
             }
             return Ok(result.Value);
         }
+        
+        [HttpDelete("{idServico}")]
+        public async Task<IActionResult> Delete([FromRoute] int idServico, Guid IdEmpresa)
+        {
+            var result = await _servicoRepo.DeleteAsync(idServico, IdEmpresa);
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Value);
+        }
+
     }
 }

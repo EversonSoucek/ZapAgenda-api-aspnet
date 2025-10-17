@@ -23,6 +23,28 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(servico);
         }
 
+        public async Task<Result<Servico>> DeleteAsync(int IdServico, Guid IdEmpresa)
+        {
+            var servico = await _context.Servico.FirstOrDefaultAsync(s => s.Id == IdServico && s.IdEmpresa == IdEmpresa);
+            if (servico == null)
+            {
+                return Result.Fail($"Serviço com ID {IdServico} não encontrado para esta empresa.");
+            }
+
+            if (!servico.Status)
+            {
+                return Result.Fail("O serviço já está desativado.");
+            }
+
+            servico.Status = false;
+            servico.UltimaModificacao = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Result.Ok(servico);
+        }
+
+
         public async Task<Result<List<Servico>>> GetAllByEmpresa(Guid IdEmpresa)
         {
             var servicos = await _context.Servico.Where(servico => servico.IdEmpresa == IdEmpresa && servico.Status).ToListAsync();
