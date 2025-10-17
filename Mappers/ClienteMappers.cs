@@ -5,22 +5,29 @@ namespace ZapAgenda_api_aspnet.Mappers
 {
     public static class ClienteMappers
     {
-        public static Cliente ToCreateClienteDto(this CreateClienteDto clienteDto) {
-            return new Cliente {
+        public static Cliente ToCreateClienteDto(this CreateClienteDto clienteDto)
+        {
+            return new Cliente
+            {
                 Cpf = clienteDto.Cpf,
                 DataNascimento = clienteDto.DataNascimento,
                 Nome = clienteDto.Nome,
                 Observacao = clienteDto.Observacao,
-                Telefone = clienteDto.Telefone
+                Telefone = clienteDto.Telefone,
+                Email = clienteDto.Email
             };
         }
-        public static ClienteDto ToClienteDto(this Cliente clienteDto) {
-            return new ClienteDto {
+        public static ClienteDto ToClienteDto(this Cliente clienteDto)
+        {
+            return new ClienteDto
+            {
+                Id = clienteDto.Id,
                 Cpf = clienteDto.Cpf,
                 DataNascimento = clienteDto.DataNascimento,
                 Nome = clienteDto.Nome,
                 Observacao = clienteDto.Observacao,
-                Telefone = clienteDto.Telefone
+                Telefone = clienteDto.Telefone,
+                Email = clienteDto.Email
             };
         }
     }

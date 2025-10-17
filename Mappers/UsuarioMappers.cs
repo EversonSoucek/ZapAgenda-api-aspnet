@@ -21,7 +21,7 @@ namespace ZapAgenda_api_aspnet.Mappers
         {
             return new UsuarioDto
             {
-                IdUsuario = usuarioModel.Id,
+                Id = usuarioModel.Id,
                 NomeInteiro = usuarioModel.NomeInteiro,
                 Email = usuarioModel.Email,
                 NomeUsuario = usuarioModel.NomeUsuario,

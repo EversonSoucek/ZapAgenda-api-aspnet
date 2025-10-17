@@ -4,7 +4,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Usuario
 {
     public class UsuarioDto
     {
-        public int IdUsuario { get; set; }
+        public int Id { get; set; }
         public required string NomeUsuario { get; set; }
         public required string NomeInteiro { get; set; }
         public string? Email { get; set; }

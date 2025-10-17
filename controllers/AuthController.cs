@@ -43,7 +43,7 @@ namespace ZapAgenda_api_aspnet.controllers
                 Cpf = usuarioValores.Cpf,
                 Email = usuarioValores.Email,
                 IdCargo = usuarioValores.IdCargo,
-                IdUsuario = usuarioValores.IdUsuario,
+                Id = usuarioValores.IdUsuario,
                 NomeInteiro = usuarioValores.NomeInteiro,
                 NomeUsuario = usuarioValores.NomeUsuario,
                 IdEmpresa = IdEmpresa

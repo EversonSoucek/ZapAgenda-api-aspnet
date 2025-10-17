@@ -12,7 +12,7 @@ using ZapAgenda_api_aspnet.data;
 namespace ZapAgenda_api_aspnet.Migrations
 {
     [DbContext(typeof(CoreDBContext))]
-    [Migration("20250521141341_init")]
+    [Migration("20251015183734_init")]
     partial class init
     {
         /// <inheritdoc />

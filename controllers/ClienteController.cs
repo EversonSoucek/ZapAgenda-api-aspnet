@@ -17,6 +17,19 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllPorEmpresa([FromRoute] Guid IdEmpresa)
+        {
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
+            {
+                return NotFound(empresa.Errors);
+            }
+
+            var clientes = await _clienteRepo.GetAllPorEmpresaAsync(IdEmpresa);
+            return Ok(clientes);
+        }
+
         [HttpGet("{idCliente}")]
         public async Task<IActionResult> GetById([FromRoute] int idCliente, Guid IdEmpresa)
         {
@@ -78,5 +91,28 @@ namespace ZapAgenda_api_aspnet.controllers
             }
             return Ok(result.Value);
         }
+
+        [HttpDelete("{IdCliente}")]
+        public async Task<IActionResult> Delete([FromRoute] int IdCliente, [FromRoute] Guid IdEmpresa)
+        {
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
+            {
+                return NotFound(empresa.Errors);
+            }
+
+            var result = await _clienteRepo.DeleteAsync(IdCliente, IdEmpresa);
+            if (result.IsFailed)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new
+            {
+                message = "Cliente desativado com sucesso.",
+                cliente = result.Value
+            });
+        }
+
     }
 }

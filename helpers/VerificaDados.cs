@@ -9,7 +9,7 @@ namespace ZapAgenda_api_aspnet.services.implementantions
         public static Result<bool> VerificaUsuario(List<Usuario> usuariosEmpresa, Usuario usuarioModel)
         {
 
-            var nomeUsuarioIgual = usuariosEmpresa.FirstOrDefault(usuario => usuario.NomeUsuario == usuarioModel.NomeUsuario);
+            var nomeUsuarioIgual = usuariosEmpresa.FirstOrDefault(usuario => usuario.NomeUsuario == usuarioModel.NomeUsuario && usuarioModel.Status == true);
             if (nomeUsuarioIgual != null)
             {
                 return Result.Fail("Não pode ter usuários com o mesmo nome de usuário.");

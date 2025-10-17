@@ -33,7 +33,7 @@ namespace ZapAgenda_api_aspnet.controllers
             {
                 return BadRequest(servicos.Errors);
             }
-            return Ok(servicos);
+            return Ok(servicos.Value);
         }
 
         //todo:ver pq não retorna o objeto da empresa

@@ -22,8 +22,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(Guid IdEmpresa)
         {
-            var usuarios = await _context.Usuario.Where(usuario => usuario.IdEmpresa == IdEmpresa).Select(s => s.ToUsuarioDto()).ToListAsync();
-            if (usuarios.Count == 0) { return Result.Fail($"Não existe usuários na empresa de id{IdEmpresa}"); }
+            var usuarios = await _context.Usuario.Where(usuario => usuario.IdEmpresa == IdEmpresa && usuario.Status == true).Select(s => s.ToUsuarioDto()).ToListAsync();
 
             return Result.Ok(usuarios);
         }
@@ -154,7 +153,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<Usuario>> DeleteAsync(int idUsuario, Guid IdEmpresa)
         {
-            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.IdUsuario == idUsuario);
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Id == idUsuario);
             if (usuario == null)
             {
                 return Result.Fail($"Não existe usuário de id: {idUsuario}");

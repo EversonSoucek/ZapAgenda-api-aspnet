@@ -20,7 +20,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<List<ClienteDto>> GetAllPorEmpresaAsync(Guid IdEmpresa)
         {
-            return await _context.Cliente.Where(cliente => cliente.IdEmpresa == IdEmpresa).Select(cliente => cliente.ToClienteDto()).ToListAsync();
+            return await _context.Cliente.Where(cliente => cliente.IdEmpresa == IdEmpresa && cliente.Status == true).Select(cliente => cliente.ToClienteDto()).ToListAsync();
         }
         public async Task<Result<Cliente>> CreateAsync(Cliente cliente, Guid IdEmpresa)
         {
@@ -82,5 +82,28 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             return Result.Ok(cliente);
         }
+
+        public async Task<Result<Cliente>> DeleteAsync(int IdCliente, Guid IdEmpresa)
+        {
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(c => c.Id == IdCliente && c.IdEmpresa == IdEmpresa);
+            if (cliente == null)
+            {
+                return Result.Fail($"Cliente com ID {IdCliente} não encontrado para esta empresa.");
+            }
+
+            if (!cliente.Status)
+            {
+                return Result.Fail("O cliente já está desativado.");
+            }
+
+            cliente.Status = false;
+            cliente.DataDesativado = DateTime.UtcNow;
+            cliente.UltimaModificacao = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Result.Ok(cliente);
+        }
+
     }
 }

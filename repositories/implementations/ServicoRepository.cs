@@ -25,7 +25,7 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
 
         public async Task<Result<List<Servico>>> GetAllByEmpresa(Guid IdEmpresa)
         {
-            var servicos = await _context.Servico.Where(servico => servico.IdEmpresa == IdEmpresa).ToListAsync();
+            var servicos = await _context.Servico.Where(servico => servico.IdEmpresa == IdEmpresa && servico.Status).ToListAsync();
             if (servicos == null)
             {
                 return Result.Fail("Servicos estão null");
