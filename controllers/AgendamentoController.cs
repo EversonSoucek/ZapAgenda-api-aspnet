@@ -45,24 +45,27 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
+        public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa, int? IdUsuario = null)
         {
-
-            var agendamento = await _agendamentoRepo.GetAllByEmpresa(IdEmpresa);
-            if(agendamento.IsFailed) {
+            var agendamento = await _agendamentoRepo.GetAllByEmpresa(IdEmpresa, IdUsuario);
+            if (agendamento.IsFailed)
+            {
                 return NotFound(agendamento.Errors);
             }
             return Ok(agendamento.Value);
         }
 
         [HttpPut("{IdAgendamento}")]
-        public async Task<IActionResult> Update([FromBody] UpdateAgendamentoDto updateAgendamentoDto,[FromRoute] int IdAgendamento,Guid IdEmpresa) {
-            if(!ModelState.IsValid) {
+        public async Task<IActionResult> Update([FromBody] UpdateAgendamentoDto updateAgendamentoDto, [FromRoute] int IdAgendamento, Guid IdEmpresa)
+        {
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
-            var result = await _agendamentoRepo.UpdateAsync(updateAgendamentoDto,IdAgendamento,IdEmpresa);
-            if(result.IsFailed) {
+            var result = await _agendamentoRepo.UpdateAsync(updateAgendamentoDto, IdAgendamento, IdEmpresa);
+            if (result.IsFailed)
+            {
                 return BadRequest(result.Errors);
             }
             return Ok(result);

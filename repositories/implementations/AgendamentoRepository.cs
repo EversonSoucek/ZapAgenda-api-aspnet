@@ -22,26 +22,29 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             _usuarioRepo = usuarioRepo;
         }
 
-        public async Task<Result<List<AgendamentoDto>>> GetAllByEmpresa(Guid IdEmpresa)
+        public async Task<Result<List<AgendamentoDto>>> GetAllByEmpresa(Guid IdEmpresa, int? IdUsuario = null)
         {
             var empresa = await _empresaRepo.GetById(IdEmpresa);
             if (empresa.IsFailed)
                 return Result.Fail($"Não existe empresa de id {IdEmpresa}");
 
-            // Inclui os serviços junto com Cliente e Usuario
-            var agendamentos = await _context.Agendamento
-    .Include(a => a.Cliente)
-    .Include(a => a.Usuario)
-    .Include(a => a.AgendamentoServico)
-        .ThenInclude(asv => asv.Servico) // <- inclui o Servico dentro do AgendamentoServico
-    .Where(agen => agen.IdEmpresa == IdEmpresa)
-    .ToListAsync();
+            var query = _context.Agendamento
+                .Include(a => a.Cliente)
+                .Include(a => a.Usuario)
+                .Include(a => a.AgendamentoServico)
+                    .ThenInclude(asv => asv.Servico)
+                .Where(a => a.IdEmpresa == IdEmpresa);
 
+            if (IdUsuario.HasValue)
+                query = query.Where(a => a.IdUsuario == IdUsuario.Value);
 
+            var agendamentos = await query.ToListAsync();
             var agendamentoDtos = agendamentos.Select(a => a.ToAgendamentoDto()).ToList();
 
             return Result.Ok(agendamentoDtos);
         }
+
+
 
 
         public async Task<Result<Agendamento>> GetById(int IdAgendamento, Guid IdEmpresa)
