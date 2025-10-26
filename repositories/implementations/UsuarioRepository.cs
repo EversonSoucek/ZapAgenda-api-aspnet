@@ -5,6 +5,7 @@ using ZapAgenda_api_aspnet.Dtos.Usuario;
 using ZapAgenda_api_aspnet.helpers;
 using ZapAgenda_api_aspnet.Mappers;
 using ZapAgenda_api_aspnet.models;
+using ZapAgenda_api_aspnet.models.Enums;
 using ZapAgenda_api_aspnet.repositories.generic;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 using ZapAgenda_api_aspnet.services.implementantions;
@@ -15,9 +16,11 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
     public class UsuarioRepository : Repository<Usuario>, IUsuarioRepository
     {
         private readonly ICriptografarService _criptService;
-        public UsuarioRepository(CoreDBContext context, ICriptografarService criptService) : base(context)
+        private readonly IEmpresaRepository _empresaRepo;
+        public UsuarioRepository(CoreDBContext context, ICriptografarService criptService, IEmpresaRepository empresaRepo) : base(context)
         {
             _criptService = criptService;
+            _empresaRepo = empresaRepo;
         }
 
         public async Task<Result<List<UsuarioDto>>> GetUsuariosByEmpresa(Guid IdEmpresa)
@@ -27,34 +30,54 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(usuarios);
         }
 
-        public async Task<Result<Usuario>> CreateAsync(Usuario usuarioModel, Guid IdEmpresa)
+        public async Task<Result<Usuario>> CreateAsync(CreateUsuarioDto dto, Guid IdEmpresa)
         {
+            // 🔹 Busca os usuários da empresa
             var usuariosResult = await _context.Usuario
                 .Where(usuario => usuario.IdEmpresa == IdEmpresa)
                 .ToListAsync();
 
-            if (usuariosResult == null) { return Result.Fail($"Erro ao buscar usuários da empresa de id {IdEmpresa}"); }
+            if (usuariosResult == null)
+                return Result.Fail($"Erro ao buscar usuários da empresa de id {IdEmpresa}");
 
+            // 🔹 Monta o modelo de domínio
+            var usuarioModel = dto.ToCreateUsuarioDto();
+            usuarioModel.IdEmpresa = IdEmpresa;
+
+            // 🔹 Validações
             var nomeUsuarioRepetido = VerificaDados.VerificaUsuario(usuariosResult, usuarioModel);
-            if (nomeUsuarioRepetido.IsFailed) { return Result.Fail<Usuario>(nomeUsuarioRepetido.Errors); }
+            if (nomeUsuarioRepetido.IsFailed)
+                return Result.Fail<Usuario>(nomeUsuarioRepetido.Errors);
 
             var senhaAutorizada = VerificaDados.VerificaSenha(usuarioModel.Senha);
-            if (senhaAutorizada.IsFailed) { return Result.Fail(senhaAutorizada.Errors); }
+            if (senhaAutorizada.IsFailed)
+                return Result.Fail(senhaAutorizada.Errors);
 
             if (!string.IsNullOrEmpty(usuarioModel.Cpf))
             {
-                var IsCpf = VerificaDados.VerificaCpf(usuarioModel.Cpf);
-                if (!IsCpf.IsSuccess)
-                {
-                    return Result.Fail(IsCpf.Errors);
-                }
+                var isCpf = VerificaDados.VerificaCpf(usuarioModel.Cpf);
+                if (isCpf.IsFailed)
+                    return Result.Fail(isCpf.Errors);
             }
 
-            usuarioModel.IdEmpresa = IdEmpresa;
+            // 🔹 Criptografa a senha
             usuarioModel.Senha = _criptService.HashSenha(usuarioModel.Senha);
 
+            // 🔹 Salva o usuário
             await _context.Usuario.AddAsync(usuarioModel);
             await _context.SaveChangesAsync();
+
+            // 🔹 Busca a empresa para verificar o tipo
+            var empresaResult = await _empresaRepo.GetById(IdEmpresa);
+            if (empresaResult.IsSuccess && empresaResult.Value.TipoEmpresa == TipoEmpresa.CLINICA)
+            {
+                if (dto.ProfissionalSaude != null)
+                {
+                    var profissional = dto.ProfissionalSaude.ToProfissionalSaude(usuarioModel.Id);
+                    await _context.ProfissionalSaude.AddAsync(profissional);
+                    await _context.SaveChangesAsync();
+                }
+            }
 
             return Result.Ok(usuarioModel);
         }

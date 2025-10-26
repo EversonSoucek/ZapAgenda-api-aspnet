@@ -44,22 +44,23 @@ namespace ZapAgenda_api_aspnet.controllers
         public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
-            {
-                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
-            }
-            var usuario = createUsuarioDto.ToCreateUsuarioDto();
 
-            var result = await _usuarioRepo.CreateAsync(usuario, IdEmpresa);
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
+                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
+
+            // 🔹 Passa direto o DTO para o repositório
+            var result = await _usuarioRepo.CreateAsync(createUsuarioDto, IdEmpresa);
+
             if (result.IsFailed)
-            {
                 return BadRequest(new { Erros = result.Errors.Select(e => e.Message) });
-            }
-            return CreatedAtAction(nameof(GetById), new { idUsuario = usuario.Id, IdEmpresa = IdEmpresa }, usuario);
+
+            // 🔹 Usa o objeto retornado, que já tem o Id
+            var usuarioCriado = result.Value;
+
+            return CreatedAtAction(nameof(GetById), new { idUsuario = usuarioCriado.Id, IdEmpresa }, usuarioCriado);
         }
+
 
         //[Authorize]
         [HttpGet]

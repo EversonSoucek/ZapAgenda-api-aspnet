@@ -4,6 +4,6 @@ namespace ZapAgenda_api_aspnet.models.Enums
     {
         GENERICO = 1,
         BARBEIRO = 2,
-        DENTISTA = 3,
+        CLINICA = 3,
     }
 }

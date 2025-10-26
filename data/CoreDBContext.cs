@@ -15,6 +15,8 @@ namespace ZapAgenda_api_aspnet.data
         public required DbSet<Agendamento> Agendamento { get; set; }
         public required DbSet<AgendamentoServico> AgendamentoServico { get; set; }
         public required DbSet<Cliente> Cliente { get; set; }
+        public required DbSet<ProfissionalSaude> ProfissionalSaude { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
