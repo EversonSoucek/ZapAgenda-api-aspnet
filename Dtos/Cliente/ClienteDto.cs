@@ -9,5 +9,7 @@ namespace ZapAgenda_api_aspnet.Dtos.Cliente
         public string? Observacao { get; set; }
         public DateOnly? DataNascimento { get; set; }
         public string? Email { get; set; }
+        public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
+
     }
 }

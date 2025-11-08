@@ -12,6 +12,7 @@ namespace ZapAgenda_api_aspnet.repositories.interfaces
         Task<Result<UsuarioComSenhaDto>> GetUsariosByEmpresaAndNomeUsuario(Guid IdEmpresa, string nomeUsuario);
         Task<Result<Usuario>> UpdateAsync(UpdateUsuarioDto updateUsuarioDto, int idUsuario, Guid IdEmpresa);
         Task<Result<Usuario>> UpdateSenhaAsync(UpdateSenhaUsuarioDto updateSenhaUsuarioDto, int idUsuario, Guid IdEmpresa);
+        Task<Result<Usuario>> UpdateSenhaByNomeUsuarioAsync(Guid idEmpresa, string nomeUsuario, string novaSenha); // <-- Adicionado
         Task<Result<Usuario>> GetByIdAsync (int idUsuario,Guid IdEmpresa);
         Task<Result<List<NomeUsuarioDto>>> GetNomeUsuarioDto(Guid IdEmpresa);
         Task<Result<Usuario>> DeleteAsync(int IdUsuario, Guid IdEmpresa);

@@ -200,5 +200,35 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             }
             return Result.Ok(usuarios);
         }
+
+        public async Task<Result<Usuario>> UpdateSenhaByNomeUsuarioAsync(Guid idEmpresa, string nomeUsuario, string novaSenha)
+        {
+            // 🔹 Busca o usuário pelo nome de usuário e empresa
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(u => u.NomeUsuario == nomeUsuario && u.IdEmpresa == idEmpresa);
+
+            if (usuario == null)
+                return Result.Fail($"Não existe usuário com o nome '{nomeUsuario}' nesta empresa.");
+
+            // 🔹 Verifica se o usuário pertence à empresa (garantia extra)
+            var usuarioPertenceEmpresa = VerificaEmpresa.PertenceEmpresa(usuario.IdEmpresa, idEmpresa);
+            if (usuarioPertenceEmpresa.IsFailed)
+                return Result.Fail(usuarioPertenceEmpresa.Errors);
+
+            // 🔹 Valida a nova senha
+            var senhaAutorizada = VerificaDados.VerificaSenha(novaSenha);
+            if (senhaAutorizada.IsFailed)
+                return Result.Fail(senhaAutorizada.Errors);
+
+            // 🔹 Criptografa e atualiza
+            usuario.Senha = _criptService.HashSenha(novaSenha);
+            usuario.UltimaModificacao = DateTime.UtcNow;
+
+            _context.Usuario.Update(usuario);
+            await _context.SaveChangesAsync();
+
+            return Result.Ok(usuario);
+        }
+
     }
 }

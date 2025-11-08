@@ -53,6 +53,25 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(cliente.Value);
         }
 
+        // 🔹 NOVO MÉTODO - Buscar cliente por CPF
+        [HttpGet("cpf/{cpf}")]
+        public async Task<IActionResult> GetByCpf([FromRoute] string cpf, [FromRoute] Guid IdEmpresa)
+        {
+            var empresa = await _empresaRepo.GetByGuidAsync(IdEmpresa);
+            if (empresa.IsFailed)
+            {
+                return NotFound(empresa.Errors);
+            }
+
+            var cliente = await _clienteRepo.GetByCpf(cpf, IdEmpresa);
+            if (cliente.IsFailed)
+            {
+                return NotFound(cliente.Errors);
+            }
+
+            return Ok(cliente.Value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateClienteDto createClienteDto, Guid IdEmpresa)
         {

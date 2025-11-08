@@ -105,5 +105,25 @@ namespace ZapAgenda_api_aspnet.repositories.implementations
             return Result.Ok(cliente);
         }
 
+        public async Task<Result<Cliente>> GetByCpf(string cpf, Guid idEmpresa)
+        {
+            // 🔹 Validação do CPF
+            var validaCpf = VerificaDados.VerificaCpf(cpf);
+            if (validaCpf.IsFailed)
+            {
+                return Result.Fail("CPF inválido");
+            }
+
+            var cliente = await _context.Cliente
+                .FirstOrDefaultAsync(c => c.Cpf == cpf && c.IdEmpresa == idEmpresa);
+
+            if (cliente == null)
+            {
+                return Result.Fail("Cliente não encontrado para este CPF nesta empresa");
+            }
+
+            return Result.Ok(cliente);
+        }
+
     }
 }

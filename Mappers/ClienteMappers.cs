@@ -27,7 +27,8 @@ namespace ZapAgenda_api_aspnet.Mappers
                 Nome = clienteDto.Nome,
                 Observacao = clienteDto.Observacao,
                 Telefone = clienteDto.Telefone,
-                Email = clienteDto.Email
+                Email = clienteDto.Email,
+                DataCadastro = clienteDto.DataCadastro
             };
         }
     }

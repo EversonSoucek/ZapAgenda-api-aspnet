@@ -139,5 +139,23 @@ namespace ZapAgenda_api_aspnet.controllers
 
             return Ok(result.Value);
         }
+
+        [Authorize]
+        [HttpPatch("update-senha-por-nome")]
+        public async Task<IActionResult> UpdateSenhaByNomeUsuario([FromBody] UpdateSenhaPorNomeDto updateSenhaDto, Guid IdEmpresa)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (await _empresaRepo.GetByGuidAsync(IdEmpresa) == null)
+                return NotFound($"Não existe empresa com ID {IdEmpresa}.");
+
+            var result = await _usuarioRepo.UpdateSenhaByNomeUsuarioAsync(IdEmpresa, updateSenhaDto.NomeUsuario, updateSenhaDto.NovaSenha);
+
+            if (result.IsFailed)
+                return BadRequest(result.Errors);
+
+            return NoContent();
+        }
     }
 }
