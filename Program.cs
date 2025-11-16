@@ -97,7 +97,6 @@ else
     app.UseHsts();
     app.UseHttpsRedirection();
 }
-app.UseMiddleware<CookieToHeaderMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
