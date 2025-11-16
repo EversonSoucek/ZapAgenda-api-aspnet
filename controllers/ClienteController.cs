@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Cliente;
 using ZapAgenda_api_aspnet.Mappers;
@@ -16,7 +17,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllPorEmpresa([FromRoute] Guid IdEmpresa)
         {
@@ -30,6 +31,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(clientes);
         }
 
+        [Authorize]
         [HttpGet("{idCliente}")]
         public async Task<IActionResult> GetById([FromRoute] int idCliente, Guid IdEmpresa)
         {
@@ -53,7 +55,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(cliente.Value);
         }
 
-        // 🔹 NOVO MÉTODO - Buscar cliente por CPF
+        [Authorize]
         [HttpGet("cpf/{cpf}")]
         public async Task<IActionResult> GetByCpf([FromRoute] string cpf, [FromRoute] Guid IdEmpresa)
         {
@@ -72,6 +74,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(cliente.Value);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateClienteDto createClienteDto, Guid IdEmpresa)
         {
@@ -90,6 +93,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idCliente = cliente.Id, IdEmpresa = IdEmpresa }, cliente);
         }
 
+        [Authorize]
         [HttpPut("{IdCliente}")]
         public async Task<IActionResult> Update([FromBody] UpdateClienteDto updateClienteDto, [FromRoute] int IdCliente, Guid IdEmpresa)
         {
@@ -111,6 +115,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(result.Value);
         }
 
+        [Authorize]
         [HttpDelete("{IdCliente}")]
         public async Task<IActionResult> Delete([FromRoute] int IdCliente, [FromRoute] Guid IdEmpresa)
         {

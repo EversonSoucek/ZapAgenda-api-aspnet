@@ -17,7 +17,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _empresaRepo = empresaRepo;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("{idUsuario}")]
         public async Task<IActionResult> GetById([FromRoute] int idUsuario, Guid IdEmpresa)
         {
@@ -39,7 +39,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(usuario.Value);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUsuarioDto createUsuarioDto, Guid IdEmpresa)
         {
@@ -62,7 +62,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
         {

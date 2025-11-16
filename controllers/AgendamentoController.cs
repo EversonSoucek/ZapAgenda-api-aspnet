@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Agendamento;
-using ZapAgenda_api_aspnet.models;
 using ZapAgenda_api_aspnet.repositories.interfaces;
 
 namespace ZapAgenda_api_aspnet.controllers
@@ -18,6 +14,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _agendamentoRepo = agendamentoRepo;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAgendamentoDto createAgendamentoDto, Guid IdEmpresa)
         {
@@ -33,6 +30,8 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(agendamento);
 
         }
+
+        [Authorize]
         [HttpGet("{IdAgendamento}")]
         public async Task<IActionResult> GetById([FromRoute] int IdAgendamento, Guid IdEmpresa)
         {
@@ -44,17 +43,19 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(agendamento);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa, int? IdUsuario = null)
-        {
-            var agendamento = await _agendamentoRepo.GetAllByEmpresa(IdEmpresa, IdUsuario);
-            if (agendamento.IsFailed)
+            [Authorize]
+            [HttpGet]
+            public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa, int? IdUsuario = null)
             {
-                return NotFound(agendamento.Errors);
+                var agendamento = await _agendamentoRepo.GetAllByEmpresa(IdEmpresa, IdUsuario);
+                if (agendamento.IsFailed)
+                {
+                    return NotFound(agendamento.Errors);
+                }
+                return Ok(agendamento.Value);
             }
-            return Ok(agendamento.Value);
-        }
 
+        [Authorize]
         [HttpPut("{IdAgendamento}")]
         public async Task<IActionResult> Update([FromBody] UpdateAgendamentoDto updateAgendamentoDto, [FromRoute] int IdAgendamento, Guid IdEmpresa)
         {

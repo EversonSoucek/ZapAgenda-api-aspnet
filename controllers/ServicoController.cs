@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZapAgenda_api_aspnet.Dtos.Servico;
 using ZapAgenda_api_aspnet.Mappers;
@@ -14,6 +15,7 @@ namespace ZapAgenda_api_aspnet.controllers
             _servicoRepo = servicoRepo;
         }
 
+        [Authorize]
         [HttpGet("{IdServico}")]
         public async Task<IActionResult> GetById([FromRoute] int IdServico, Guid IdEmpresa)
         {
@@ -25,6 +27,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(servico.Value);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllByIdEmpresa(Guid IdEmpresa)
         {
@@ -37,6 +40,7 @@ namespace ZapAgenda_api_aspnet.controllers
         }
 
         //todo:ver pq não retorna o objeto da empresa
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateServicoDto createServicoDto, Guid IdEmpresa)
         {
@@ -53,6 +57,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return CreatedAtAction(nameof(GetById), new { idServico = servico.Id, IdEmpresa = IdEmpresa }, servico);
         }
 
+        [Authorize]
         [HttpPut("{idServico}")]
         public async Task<IActionResult> Update([FromBody] UpdateServicoDto updateServicoDto, [FromRoute] int idServico, Guid IdEmpresa)
         {
@@ -68,6 +73,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(result.Value);
         }
         
+        [Authorize]
         [HttpDelete("{idServico}")]
         public async Task<IActionResult> Delete([FromRoute] int idServico, Guid IdEmpresa)
         {

@@ -24,7 +24,6 @@ namespace ZapAgenda_api_aspnet.controllers
             return Ok(empresa);
         }
 
-        //[Authorize]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
@@ -67,7 +66,7 @@ namespace ZapAgenda_api_aspnet.controllers
             return NoContent();
         }
 
-        // [Authorize]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEmpresaDto empresaDto)
         {
